@@ -28,7 +28,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         solicitarPermisos();
         contactos = findViewById(R.id.etNombres);
+        Button buscar = findViewById(R.id.buttonBuscar);
+        buscar.setOnClickListener(this);
 
+        /*
         // Base de datos.
 
         db = openOrCreateDatabase("Cumpleaños", Context.MODE_PRIVATE, null);
@@ -41,9 +44,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 " Nombre VARCHAR(128)\n" +
                 ");");
 
-        Button buscar = findViewById(R.id.buttonBuscar);
-        buscar.setOnClickListener(this);
 
+*/
 
 
     }
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void solicitarPermisos(){
         boolean permisos_concedidos=false;
 
-        while (permisos_concedidos==false) {
+     //   while (permisos_concedidos==false) {
             if (checkSelfPermission(Manifest.permission.READ_CONTACTS) !=
                     PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, 1);
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else if (checkSelfPermission(Manifest.permission.READ_CONTACTS) ==
                     PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED){
                 permisos_concedidos=true;
-            }
+          //  }
         }
     }
 
@@ -71,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String proyeccion[]={ContactsContract.Contacts._ID,
                 ContactsContract.Contacts.DISPLAY_NAME,
                 ContactsContract.Contacts.HAS_PHONE_NUMBER,
-                ContactsContract.CommonDataKinds.Event.START_DATE,
                 ContactsContract.Contacts.PHOTO_ID};
 
         // FROM
