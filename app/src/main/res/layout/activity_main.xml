@@ -32,11 +32,4 @@
         app:layout_constraintTop_toBottomOf="@+id/etNombres"
         app:layout_constraintVertical_bias="0.0" />
 
-    <ListView
-        android:id="@+id/listVista"
-        android:layout_width="409dp"
-        android:layout_height="566dp"
-        app:layout_constraintTop_toBottomOf="@+id/buttonBuscar"
-        tools:layout_editor_absoluteX="1dp" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

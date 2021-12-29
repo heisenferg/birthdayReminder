@@ -106,4 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ListView l = findViewById(R.id.listVista);
         l.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, miLista));
     }
+
+    //Para abrir foto
+
 }
