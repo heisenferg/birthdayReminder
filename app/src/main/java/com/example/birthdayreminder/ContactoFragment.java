@@ -64,7 +64,8 @@ public class ContactoFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyContactoRecyclerViewAdapter(PlaceholderContent.ITEMS));
+            MainActivity miActividad = (MainActivity) getActivity();
+            recyclerView.setAdapter(miActividad.miAdaptador);
         }
         return view;
     }

@@ -23,12 +23,16 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    public ArrayList<Contacto> miLista = new ArrayList<Contacto>();
+    public MyContactoRecyclerViewAdapter miAdaptador;
     ListView listaContactos;
     SQLiteDatabase db;
     EditText contactos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        miAdaptador = new MyContactoRecyclerViewAdapter(miLista);
         setContentView(R.layout.activity_main);
         solicitarPermisos();
         contactos = findViewById(R.id.etNombres);
@@ -48,9 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 " Nombre VARCHAR(128)\n" +
                 ");");
 
-
 */
-
 
     }
 
@@ -73,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @SuppressLint("Range")
     @Override
     public void onClick(View v) {
-        ArrayList<String> miLista = new ArrayList<String>();
+
         //Buscamos Contactos
         String proyeccion[]={ContactsContract.Contacts._ID,
                 ContactsContract.Contacts.DISPLAY_NAME,
@@ -92,19 +94,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (misContactos!=null){
             while(misContactos.moveToNext()){
-                String idContacto = misContactos.getString(misContactos.getColumnIndex(ContactsContract.Contacts._ID));
+                int idContacto = misContactos.getInt(misContactos.getColumnIndex(ContactsContract.Contacts._ID));
                 String nombrecontacto = misContactos.getString(misContactos.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
 
                 if (Integer.parseInt(misContactos.getString(
                         misContactos.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)))>0) {
                     Log.d("Contacto: ", idContacto + ": " + nombrecontacto + ": ");
-                    miLista.add(idContacto + ": " + nombrecontacto);
+                    Contacto contacto = new Contacto(idContacto, nombrecontacto);
+                    miLista.add(contacto);
                 }
             }
+            miAdaptador.notifyDataSetChanged();
         }
 
-        ListView l = findViewById(R.id.listVista);
-        l.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, miLista));
     }
 
     //Para abrir foto

@@ -5,11 +5,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.birthdayreminder.placeholder.PlaceholderContent.PlaceholderItem;
 import com.example.birthdayreminder.databinding.FragmentItemBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,24 +20,26 @@ import java.util.List;
  */
 public class MyContactoRecyclerViewAdapter extends RecyclerView.Adapter<MyContactoRecyclerViewAdapter.ViewHolder> {
 
-    private final List<PlaceholderItem> mValues;
+    private final ArrayList<Contacto> mValues;
 
-    public MyContactoRecyclerViewAdapter(List<PlaceholderItem> items) {
+    public MyContactoRecyclerViewAdapter(ArrayList<Contacto> items) {
         mValues = items;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        return new ViewHolder(FragmentItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_item, parent, false);
+        return new ViewHolder(view);
 
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mNombre.setText(mValues.get(position).nombre);
+        holder.mTelefono.setText(mValues.get(position).telefono);
+     //   holder.aviso.setText(mValues.get(position).aviso);
+      //  holder.foto.setImageBitmap(mValues.get(position).foto);
     }
 
     @Override
@@ -44,19 +48,24 @@ public class MyContactoRecyclerViewAdapter extends RecyclerView.Adapter<MyContac
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public PlaceholderItem mItem;
+        public final TextView mTelefono;
+        public final TextView mNombre;
+      //  public final ImageView foto;
+        public Contacto mItem;
+      //  public final TextView aviso;
 
-        public ViewHolder(FragmentItemBinding binding) {
-            super(binding.getRoot());
-            mIdView = binding.itemNumber;
-            mContentView = binding.content;
+        public ViewHolder(View view) {
+            super(view);
+            mTelefono = (TextView) view.findViewById(R.id.textViewTlf);
+            mNombre =(TextView)  view.findViewById(R.id.textViewNombre);
+          //  foto = (ImageView) view.findViewById(R.id.imageViewFoto);
+        //   aviso = (TextView)  view.findViewById(R.id.textViewAviso);
+
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mNombre.getText() + "'";
         }
     }
 }
