@@ -84,8 +84,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Uri contactUri = ContactsContract.Contacts.CONTENT_URI;
 
         // WHERE ORDER BY
+        EditText busqueda = findViewById(R.id.etNombres);
+        String filtro = ContactsContract.Contacts.DISPLAY_NAME + " like ?";
+        String argumentos_filtro[]= {"%" + busqueda.getText().toString() +"%"};
         ContentResolver cr = getContentResolver();
-        Cursor misContactos = cr.query(contactUri, proyeccion, null, null, null);
+        Cursor misContactos = cr.query(contactUri, proyeccion, filtro, argumentos_filtro, null);
 
         if (misContactos!=null){
             while(misContactos.moveToNext()){
