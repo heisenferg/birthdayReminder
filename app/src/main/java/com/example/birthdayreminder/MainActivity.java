@@ -6,10 +6,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -20,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -101,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         misContactos.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)))>0) {
                     Log.d("Contacto: ", idContacto + ": " + nombrecontacto + ": ");
                     Contacto contacto = new Contacto(idContacto, nombrecontacto);
+                    abrirFoto(contacto);
                     miLista.add(contacto);
                 }
             }
@@ -110,5 +114,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     //Para abrir foto
-
+    public void abrirFoto(Contacto contacto){
+        Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contacto.id);
+        InputStream inputStream = ContactsContract.Contacts.openContactPhotoInputStream(getContentResolver(), contactUri,false);
+        contacto.foto = BitmapFactory.decodeStream(inputStream);
+    }
 }
