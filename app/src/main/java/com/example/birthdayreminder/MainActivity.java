@@ -94,8 +94,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             while(misContactos.moveToNext()){
                 String idContacto = misContactos.getString(misContactos.getColumnIndex(ContactsContract.Contacts._ID));
                 String nombrecontacto = misContactos.getString(misContactos.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                Log.d("Contacto: ", idContacto + ": " + nombrecontacto + ": ");
-                miLista.add(idContacto+ ": " + nombrecontacto);
+
+                if (Integer.parseInt(misContactos.getString(
+                        misContactos.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)))>0) {
+                    Log.d("Contacto: ", idContacto + ": " + nombrecontacto + ": ");
+                    miLista.add(idContacto + ": " + nombrecontacto);
+                }
             }
         }
 
