@@ -1,6 +1,7 @@
 package com.example.birthdayreminder;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -14,9 +15,12 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     ListView listaContactos;
@@ -69,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @SuppressLint("Range")
     @Override
     public void onClick(View v) {
+        ArrayList<String> miLista = new ArrayList<String>();
         //Buscamos Contactos
         String proyeccion[]={ContactsContract.Contacts._ID,
                 ContactsContract.Contacts.DISPLAY_NAME,
@@ -86,8 +91,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             while(misContactos.moveToNext()){
                 String idContacto = misContactos.getString(misContactos.getColumnIndex(ContactsContract.Contacts._ID));
                 String nombrecontacto = misContactos.getString(misContactos.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                Log.d("Contacto: ", idContacto + ": " + nombrecontacto);
+                Log.d("Contacto: ", idContacto + ": " + nombrecontacto + ": ");
+                miLista.add(idContacto+ ": " + nombrecontacto);
             }
         }
+
+        ListView l = findViewById(R.id.listVista);
+        l.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, miLista));
     }
 }
