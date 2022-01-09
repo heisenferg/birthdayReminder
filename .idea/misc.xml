@@ -4,12 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/heise/AndroidStudioProjects/birthdayReminder/app/src/main/res/layout/activity_main.xml" value="0.24010416666666667" />
+        <entry key="..\:/Users/heise/AndroidStudioProjects/birthdayReminder/app/src/main/res/layout/fragment_first.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/heise/AndroidStudioProjects/birthdayReminder/app/src/main/res/layout/fragment_second.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/heise/AndroidStudioProjects/birthdayReminder/app/src/main/res/layout/listviewformato.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/birthdayReminder/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/birthdayReminder/app/src/main/res/layout/fragment_item.xml" value="0.33" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/birthdayReminder/app/src/main/res/layout/fragment_item_list.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/birthdayReminder/app/src/main/res/layout/fragmentcontacto.xml" value="0.20520833333333333" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/birthdayReminder/app/src/main/res/layout/listviewformato.xml" value="0.20520833333333333" />
       </map>
     </option>
   </component>

@@ -42,8 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button buscar = findViewById(R.id.buttonBuscar);
         buscar.setOnClickListener(this);
 
-        /*
-        // Base de datos.
+     //   Base de datos.
 
         db = openOrCreateDatabase("Cumpleaños", Context.MODE_PRIVATE, null);
         db.execSQL("CREATE TABLE IF NOT EXISTS miscumples(\n" +
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 " Nombre VARCHAR(128)\n" +
                 ");");
 
-*/
+
 
     }
 
@@ -99,10 +98,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             while(misContactos.moveToNext()){
                 int idContacto = misContactos.getInt(misContactos.getColumnIndex(ContactsContract.Contacts._ID));
                 String nombrecontacto = misContactos.getString(misContactos.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-
+               // String telefono = misContactos.getString(misContactos.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                 if (Integer.parseInt(misContactos.getString(
                         misContactos.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)))>0) {
-                    Log.d("Contacto: ", idContacto + ": " + nombrecontacto + ": ");
+                    Log.d("Contacto: ", idContacto + ": " + nombrecontacto + ": " );
                     Contacto contacto = new Contacto(idContacto, nombrecontacto);
                     abrirFoto(contacto);
                     miLista.add(contacto);
