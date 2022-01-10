@@ -118,7 +118,7 @@ String phone = null;
                 // String telefono = misContactos.getString(misContactos.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                 if (Integer.parseInt(misContactos.getString(
                         misContactos.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)))>0) {
-                    Contacto contacto = new Contacto(idContacto, nombrecontacto);
+                    Contacto contacto = new Contacto(idContacto, nombrecontacto, phone);
                     abrirFoto(contacto);
                     miLista.add(contacto);
                 }

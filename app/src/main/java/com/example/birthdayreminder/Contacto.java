@@ -10,8 +10,9 @@ public class Contacto {
     public String telefono;
     public String aviso;
 
-    public Contacto(int id, String nombre) {
+    public Contacto(int id, String nombre, String telefono) {
         this.id = id;
         this.nombre = nombre;
+        this.telefono = telefono;
     }
 }
