@@ -40,6 +40,7 @@ public class MyContactoRecyclerViewAdapter extends RecyclerView.Adapter<MyContac
         holder.mTelefono.setText(mValues.get(position).telefono);
      //   holder.aviso.setText(mValues.get(position).aviso);
         holder.foto.setImageBitmap(mValues.get(position).foto);
+      //  holder.cumple.setText(mValues.get(position.cumple));
     }
 
     @Override
@@ -51,6 +52,7 @@ public class MyContactoRecyclerViewAdapter extends RecyclerView.Adapter<MyContac
         public final TextView mTelefono;
         public final TextView mNombre;
         public final ImageView foto;
+        public final TextView cumple;
         public Contacto mItem;
       //  public final TextView aviso;
 
@@ -59,6 +61,7 @@ public class MyContactoRecyclerViewAdapter extends RecyclerView.Adapter<MyContac
             mTelefono = (TextView) view.findViewById(R.id.textViewTlf);
             mNombre =(TextView)  view.findViewById(R.id.textViewNombre);
             foto = (ImageView) view.findViewById(R.id.imageViewFoto);
+            cumple = (TextView) view.findViewById(R.id.txtViewCumple);
         //   aviso = (TextView)  view.findViewById(R.id.textViewAviso);
 
         }

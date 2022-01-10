@@ -109,27 +109,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 String phone = null;
         int idContacto=0;
         String nombrecontacto=null;
+        String cumple=null;
 
         if (misContactos!=null && phoneCursor!=null){
             while(misContactos.moveToNext() && phoneCursor.moveToNext()){
-                idContacto = misContactos.getInt(misContactos.getColumnIndex(ContactsContract.Contacts._ID));
-                nombrecontacto = misContactos.getString(misContactos.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-               phone = phoneCursor.getString(4);
+
+
                 // String telefono = misContactos.getString(misContactos.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                 if (Integer.parseInt(misContactos.getString(
                         misContactos.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)))>0) {
+
+                    idContacto = misContactos.getInt(misContactos.getColumnIndex(ContactsContract.CommonDataKinds.Nickname._ID));
+                    nombrecontacto = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Nickname.DISPLAY_NAME));
+                    phone = phoneCursor.getString(4);
+                    cumple = getCumpleaños(idContacto);
                     Contacto contacto = new Contacto(idContacto, nombrecontacto, phone);
                     abrirFoto(contacto);
                     miLista.add(contacto);
                 }
             }
             miAdaptador.notifyDataSetChanged();
-            Log.d("Contacto: ", idContacto + ": " + nombrecontacto + ": " + phone);
+            Log.d("Contacto: ", idContacto + ": " + nombrecontacto + ": " + phone +" "+ cumple);
 
 
         }
 
-
+        miAdaptador.notifyDataSetChanged();
 
     }
 
@@ -138,5 +143,33 @@ String phone = null;
         Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contacto.id);
         InputStream inputStream = ContactsContract.Contacts.openContactPhotoInputStream(getContentResolver(), contactUri,false);
         contacto.foto = BitmapFactory.decodeStream(inputStream);
+    }
+
+
+
+    //Fecha de nacimiento
+
+    @SuppressLint("Range")
+    public String getCumpleaños(int identificador){
+        String fecha=new String();
+        Uri uri = ContactsContract.Data.CONTENT_URI;
+        String[] proyeccion = new String[] {
+                ContactsContract.Contacts.DISPLAY_NAME,
+                ContactsContract.CommonDataKinds.Event.CONTACT_ID,
+                ContactsContract.CommonDataKinds.Event.START_DATE
+        };
+        String filtro =
+                ContactsContract.Data.MIMETYPE + "= ? AND " +
+                        ContactsContract.CommonDataKinds.Event.TYPE + "=" +
+                        ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY + " AND " +
+                        ContactsContract.CommonDataKinds.Event.CONTACT_ID + " = ? ";
+        String[] argsFiltro = new String[] {
+                ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE,
+                String.valueOf(identificador)
+        };
+        Cursor c=getContentResolver().query(uri,proyeccion,filtro,argsFiltro,null);
+        while(c.moveToNext())
+            fecha= c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Event.START_DATE));
+        return fecha;
     }
 }

@@ -50,4 +50,14 @@
         app:layout_constraintStart_toStartOf="@+id/textViewTlf"
         app:layout_constraintTop_toBottomOf="@+id/textViewTlf"
         app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/txtViewCumple"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cumpleaños"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewTlf"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textViewTlf"
+        app:layout_constraintTop_toTopOf="@+id/textViewTlf" />
 </androidx.constraintlayout.widget.ConstraintLayout>

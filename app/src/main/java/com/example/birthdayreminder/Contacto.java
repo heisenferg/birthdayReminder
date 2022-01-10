@@ -8,6 +8,7 @@ public class Contacto {
     public String nombre;
     public Bitmap foto;
     public String telefono;
+    public String cumple;
     public String aviso;
 
     public Contacto(int id, String nombre, String telefono) {
