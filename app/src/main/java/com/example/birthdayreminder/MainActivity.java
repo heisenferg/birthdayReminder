@@ -94,21 +94,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ContentResolver cr = getContentResolver();
         Cursor misContactos = cr.query(contactUri, proyeccion, filtro, argumentos_filtro, null);
 
-        if (misContactos!=null){
-            while(misContactos.moveToNext()){
-                int idContacto = misContactos.getInt(misContactos.getColumnIndex(ContactsContract.Contacts._ID));
-                String nombrecontacto = misContactos.getString(misContactos.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-               // String telefono = misContactos.getString(misContactos.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+        //Consulta para teléfonos
+        Uri contactos = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+        String [] proyecc = new String[] {
+                ContactsContract.CommonDataKinds.Nickname._ID,
+                ContactsContract.CommonDataKinds.Nickname.DISPLAY_NAME,
+                ContactsContract.CommonDataKinds.Phone.HAS_PHONE_NUMBER,
+                ContactsContract.Contacts.PHOTO_ID,
+                ContactsContract.CommonDataKinds.Phone.NUMBER,
+        };
+
+        Cursor phoneCursor = cr.query(contactos,proyecc, filtro, argumentos_filtro, null);
+String phone = null;
+        int idContacto=0;
+        String nombrecontacto=null;
+
+        if (misContactos!=null && phoneCursor!=null){
+            while(misContactos.moveToNext() && phoneCursor.moveToNext()){
+                idContacto = misContactos.getInt(misContactos.getColumnIndex(ContactsContract.Contacts._ID));
+                nombrecontacto = misContactos.getString(misContactos.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+               phone = phoneCursor.getString(4);
+                // String telefono = misContactos.getString(misContactos.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                 if (Integer.parseInt(misContactos.getString(
                         misContactos.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)))>0) {
-                    Log.d("Contacto: ", idContacto + ": " + nombrecontacto + ": " );
                     Contacto contacto = new Contacto(idContacto, nombrecontacto);
                     abrirFoto(contacto);
                     miLista.add(contacto);
                 }
             }
             miAdaptador.notifyDataSetChanged();
+            Log.d("Contacto: ", idContacto + ": " + nombrecontacto + ": " + phone);
+
+
         }
+
+
 
     }
 
