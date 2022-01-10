@@ -24,15 +24,24 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import com.example.birthdayreminder.placeholder.PlaceholderContent;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    public ArrayList<Contacto> miLista = new ArrayList<Contacto>();
-    public MyContactoRecyclerViewAdapter miAdaptador;
+    public static ArrayList<Contacto> miLista = new ArrayList<Contacto>();
+    public static MyContactoRecyclerViewAdapter miAdaptador;
     SQLiteDatabase db;
     EditText contactos;
+    public String phone = null;
+    public int idContacto=0;
+
+
+    public String nombrecontacto=null;
+    public String cumple=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,10 +117,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         };
 
         Cursor phoneCursor = cr.query(contactos,proyecc, filtro, argumentos_filtro, null);
-String phone = null;
-        int idContacto=0;
-        String nombrecontacto=null;
-        String cumple=null;
+
 
 
 
@@ -125,6 +131,13 @@ String phone = null;
 
                     idContacto = misContactos.getInt(misContactos.getColumnIndex(ContactsContract.CommonDataKinds.Nickname._ID));
                     nombrecontacto = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Nickname.DISPLAY_NAME));
+                    PlaceholderContent.nombre = nombrecontacto;
+                    /*TextView nombres = findViewById(R.id.edNombre);
+                    Intent intent = new Intent();
+                    intent.putExtra("Nombre", nombrecontacto);
+                    setResult(RESULT_OK, intent);
+*/
+
                     phone = phoneCursor.getString(4);
                     cumple = getCumpleaños(idContacto);
                     Contacto contacto = new Contacto(idContacto, nombrecontacto, phone, cumple);

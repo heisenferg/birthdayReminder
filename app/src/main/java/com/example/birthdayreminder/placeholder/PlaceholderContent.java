@@ -12,6 +12,7 @@ import java.util.Map;
  * TODO: Replace all uses of this class before publishing your app.
  */
 public class PlaceholderContent {
+    public static String nombre;
 
     /**
      * An array of sample (placeholder) items.
