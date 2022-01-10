@@ -2,11 +2,17 @@ package com.example.birthdayreminder;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.birthdayreminder.placeholder.PlaceholderContent.PlaceholderItem;
 import com.example.birthdayreminder.databinding.FragmentItemBinding;
@@ -18,7 +24,7 @@ import java.util.List;
  * {@link RecyclerView.Adapter} that can display a {@link PlaceholderItem}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyContactoRecyclerViewAdapter extends RecyclerView.Adapter<MyContactoRecyclerViewAdapter.ViewHolder> {
+public class MyContactoRecyclerViewAdapter extends RecyclerView.Adapter<MyContactoRecyclerViewAdapter.ViewHolder>  {
 
     private final ArrayList<Contacto> mValues;
 
@@ -40,13 +46,31 @@ public class MyContactoRecyclerViewAdapter extends RecyclerView.Adapter<MyContac
         holder.mTelefono.setText(mValues.get(position).telefono);
      //   holder.aviso.setText(mValues.get(position).aviso);
         holder.foto.setImageBitmap(mValues.get(position).foto);
-      //  holder.cumple.setText(mValues.get(position.cumple));
+        holder.cumple.setText(mValues.get(position).cumple);
+
+        holder.foto.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Toast.makeText(v.getContext(), "ACTIVADO", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(v.getContext(), EditarContacto.class);
+                v.getContext().startActivity(intent);
+                return false;
+            }
+        });
+
+
+    }
+
+    public void editar(){
+
     }
 
     @Override
     public int getItemCount() {
         return mValues.size();
     }
+    
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView mTelefono;
@@ -54,7 +78,7 @@ public class MyContactoRecyclerViewAdapter extends RecyclerView.Adapter<MyContac
         public final ImageView foto;
         public final TextView cumple;
         public Contacto mItem;
-      //  public final TextView aviso;
+        public final TextView aviso;
 
         public ViewHolder(View view) {
             super(view);
@@ -62,7 +86,7 @@ public class MyContactoRecyclerViewAdapter extends RecyclerView.Adapter<MyContac
             mNombre =(TextView)  view.findViewById(R.id.textViewNombre);
             foto = (ImageView) view.findViewById(R.id.imageViewFoto);
             cumple = (TextView) view.findViewById(R.id.txtViewCumple);
-        //   aviso = (TextView)  view.findViewById(R.id.textViewAviso);
+            aviso = (TextView)  view.findViewById(R.id.textViewAviso);
 
         }
 

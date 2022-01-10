@@ -11,9 +11,10 @@ public class Contacto {
     public String cumple;
     public String aviso;
 
-    public Contacto(int id, String nombre, String telefono) {
+    public Contacto(int id, String nombre, String telefono,String cumple) {
         this.id = id;
         this.nombre = nombre;
         this.telefono = telefono;
+        this.cumple = cumple;
     }
 }

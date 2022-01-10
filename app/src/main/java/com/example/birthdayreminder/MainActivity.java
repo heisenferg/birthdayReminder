@@ -1,5 +1,6 @@
 package com.example.birthdayreminder;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -8,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -16,6 +18,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -28,7 +31,6 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public ArrayList<Contacto> miLista = new ArrayList<Contacto>();
     public MyContactoRecyclerViewAdapter miAdaptador;
-    ListView listaContactos;
     SQLiteDatabase db;
     EditText contactos;
 
@@ -111,6 +113,8 @@ String phone = null;
         String nombrecontacto=null;
         String cumple=null;
 
+
+
         if (misContactos!=null && phoneCursor!=null){
             while(misContactos.moveToNext() && phoneCursor.moveToNext()){
 
@@ -123,12 +127,13 @@ String phone = null;
                     nombrecontacto = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Nickname.DISPLAY_NAME));
                     phone = phoneCursor.getString(4);
                     cumple = getCumpleaños(idContacto);
-                    Contacto contacto = new Contacto(idContacto, nombrecontacto, phone);
+                    Contacto contacto = new Contacto(idContacto, nombrecontacto, phone, cumple);
                     abrirFoto(contacto);
                     miLista.add(contacto);
+                    miAdaptador.notifyDataSetChanged();
                 }
             }
-            miAdaptador.notifyDataSetChanged();
+
             Log.d("Contacto: ", idContacto + ": " + nombrecontacto + ": " + phone +" "+ cumple);
 
 
@@ -136,6 +141,11 @@ String phone = null;
 
         miAdaptador.notifyDataSetChanged();
 
+    }
+
+    private void editarContact() {
+        Intent intent = new Intent(this, EditarContacto.class);
+        startActivity(intent);
     }
 
     //Para abrir foto
@@ -172,4 +182,6 @@ String phone = null;
             fecha= c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Event.START_DATE));
         return fecha;
     }
+
+
 }
