@@ -138,7 +138,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (misContactos!=null && phoneCursor!=null){
             while(misContactos.moveToNext() && phoneCursor.moveToNext()){
 
-
                 // Cargo Id y nombre; mientras que la foto del contacto y el cumpleaños, lo hago con un AsyncTask
                 if (Integer.parseInt(misContactos.getString(
                         misContactos.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)))>0) {
