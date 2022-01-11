@@ -20,7 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.io.InputStream;
 
 public class AsyncTasks extends AsyncTask {
-
+ public static String cumple;
     @Override
     protected Object doInBackground(Object[] objects) {
         return null;
@@ -31,33 +31,6 @@ public class AsyncTasks extends AsyncTask {
         Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contacto.id);
         InputStream inputStream = ContactsContract.Contacts.openContactPhotoInputStream(context.getContentResolver(), contactUri,false);
         contacto.foto = BitmapFactory.decodeStream(inputStream);
-    }
-
-    public String getTelefono(int id, Context context) {
-        String telefono = new String();
-
-        // FROM
-        Uri contactUri = ContactsContract.Contacts.CONTENT_URI;
-
-        EditText busqueda = findViewById(R.id.etNombres);
-        String filtro = ContactsContract.Contacts.DISPLAY_NAME + " like ?";
-        String argumentos_filtro[]= {"%" + busqueda.getText().toString() +"%"};
-        ContentResolver cr = context.getContentResolver();
-
-
-
-        //Consulta para teléfonos
-        Uri contactos = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-        String [] proyecc = new String[] {
-                ContactsContract.CommonDataKinds.Nickname._ID,
-                ContactsContract.CommonDataKinds.Nickname.DISPLAY_NAME,
-                ContactsContract.CommonDataKinds.Phone.HAS_PHONE_NUMBER,
-                ContactsContract.Contacts.PHOTO_ID,
-                ContactsContract.CommonDataKinds.Phone.NUMBER,
-        };
-
-        Cursor phoneCursor = cr.query(contactos,proyecc, filtro, argumentos_filtro, null);
-        return telefono;
     }
 
 
@@ -85,6 +58,7 @@ public class AsyncTasks extends AsyncTask {
         Cursor c=context.getContentResolver().query(uri,proyeccion,filtro,argsFiltro,null);
         while(c.moveToNext())
             fecha= c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Event.START_DATE));
+        cumple = fecha;
         return fecha;
     }
 }

@@ -134,21 +134,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     nombrecontacto = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Nickname.DISPLAY_NAME));
                     //Lo guardo fuera para pasarlo al otro activity.
                     PlaceholderContent.nombre = nombrecontacto;
-
-                    // Asyncs
                     phone = phoneCursor.getString(4);
-                    String phone2 = asyncTasks.getTelefono(idContacto,this);
+                    String phone2 = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DATA));
+                    PlaceholderContent.telefono = phone;
+                    Log.d("PHONE2: ", phone2);
+                    // Async
                     cumple = asyncTasks.getCumpleaños(idContacto,this);
 
                     // Guardar contacto.
                     Contacto contacto = new Contacto(idContacto, nombrecontacto, phone, cumple);
 
-                    //abrirFoto(contacto);
+                    //abrirFoto(contacto); Async
                     asyncTasks.abrirFoto(contacto, this);
                     miLista.add(contacto);
                     miAdaptador.notifyDataSetChanged();
 
-                    Log.d("Cumpleaños async", cumple + " Asycn Teléfono: " + phone2);
+                    Log.d("Cumpleaños async", cumple );
                 }
             }
 

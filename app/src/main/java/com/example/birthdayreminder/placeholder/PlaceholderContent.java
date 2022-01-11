@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class PlaceholderContent {
     public static String nombre;
-
+    public static String telefono;
     /**
      * An array of sample (placeholder) items.
      */
