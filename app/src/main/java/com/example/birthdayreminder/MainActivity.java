@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public int idContacto=0;
     AsyncTasks asyncTasks = new AsyncTasks();
     public static ArrayList telefonos = new ArrayList();
+    public static Contacto contacto;
 
 
     public String nombrecontacto=null;
@@ -92,7 +93,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @SuppressLint("Range")
     @Override
     public void onClick(View v) {
-
+        //Borro los teléfonos anteriores guardados en el array
+        telefonos.clear();
         //Buscamos Contactos
         String proyeccion[]={ContactsContract.Contacts._ID,
                 ContactsContract.Contacts.DISPLAY_NAME,
@@ -134,16 +136,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         misContactos.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)))>0) {
 
                     idContacto = misContactos.getInt(misContactos.getColumnIndex(ContactsContract.CommonDataKinds.Nickname._ID));
+                    PlaceholderContent.idContacto = idContacto;
 
                     do{
                             nombrecontacto = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Nickname.DISPLAY_NAME));
                             //Lo guardo fuera para pasarlo al otro activity.
                             PlaceholderContent.nombre = nombrecontacto;
                             phone = phoneCursor.getString(4);
-                            int phone2 = phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-
-
-
 
 
                             PlaceholderContent.telefono = phone;
@@ -152,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             cumple = asyncTasks.getCumpleaños(idContacto, this);
 
                             // Guardar contacto.
-                            Contacto contacto = new Contacto(idContacto, nombrecontacto, phone, cumple);
+                            contacto = new Contacto(idContacto, nombrecontacto, phone, cumple);
 
                             //abrirFoto(contacto); Async
                             asyncTasks.abrirFoto(contacto, this);
@@ -162,11 +161,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         telefonos.add(phone);
                             miLista.add(contacto);
 
-                            /*
 
-                             */
+miAdaptador.notifyDataSetChanged();
+
                     }while (phoneCursor.moveToNext());
-                    miAdaptador.notifyDataSetChanged();
+
 
                     //    Log.d("Cumpleaños async", cumple );
                 }

@@ -15,6 +15,7 @@ import java.util.Map;
 public class PlaceholderContent {
     public static String nombre;
     public static String telefono;
+    public static int idContacto;
     public static int fon;
     public static ArrayList telefonos;
     /**

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -27,6 +28,8 @@ public class EditarContacto extends AppCompatActivity {
     EditText cumple;
     Spinner telefono;
     public static ArrayList tel = MainActivity.telefonos;
+    ImageView foto;
+    AsyncTasks asyncTasks;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,8 +50,11 @@ public class EditarContacto extends AppCompatActivity {
         cumple.setText(AsyncTasks.cumple);
         //Teléfono
         telefono = findViewById(R.id.spinnerTelefonos);
-       // telefono.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, Collections.singletonList(PlaceholderContent.telefono)));
         telefono.setAdapter(new ArrayAdapter<String>(EditarContacto.this, android.R.layout.simple_spinner_dropdown_item, tel));
+        //Foto
+        foto = findViewById(R.id.imageViewContacto);
+        foto.setImageBitmap(MainActivity.contacto.foto);
+
 
 
 
