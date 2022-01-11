@@ -36,7 +36,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public static ArrayList<Contacto> miLista = new ArrayList<Contacto>();
     public static MyContactoRecyclerViewAdapter miAdaptador;
-    SQLiteDatabase db;
+    public static SQLiteDatabase db;
     EditText contactos;
     public String phone = null;
     public static int idContacto;
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button buscar = findViewById(R.id.buttonBuscar);
         buscar.setOnClickListener(this);
 
-     //   Base de datos.
+        //   Base de datos.
 
         db = openOrCreateDatabase("Cumpleaños", Context.MODE_PRIVATE, null);
         db.execSQL("CREATE TABLE IF NOT EXISTS miscumples(\n" +
