@@ -51,7 +51,7 @@ public class MyContactoRecyclerViewAdapter extends RecyclerView.Adapter<MyContac
         holder.foto.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Toast.makeText(v.getContext(), "ACTIVADO", Toast.LENGTH_SHORT).show();
+                Toast.makeText(v.getContext(), "ID: " + MainActivity.idContacto, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(v.getContext(), EditarContacto.class);
                 v.getContext().startActivity(intent);
                 mValues.clear();

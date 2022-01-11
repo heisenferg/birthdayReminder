@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SQLiteDatabase db;
     EditText contactos;
     public String phone = null;
-    public int idContacto=0;
+    public static int idContacto;
     AsyncTasks asyncTasks = new AsyncTasks();
     public static ArrayList telefonos = new ArrayList();
     public static Contacto contacto;
@@ -153,8 +153,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             // Guardar contacto.
                             contacto = new Contacto(idContacto, nombrecontacto, phone, cumple);
 
+
                             //abrirFoto(contacto); Async
                             asyncTasks.abrirFoto(contacto, this);
+
                          //   String numeroT = phoneCursor.getString(phone2);
                           //  Log.d("PHONE2: ", numeroT);
                             Log.d("Contacto: ", idContacto + ": " + nombrecontacto + ": " + phone + " " + cumple);

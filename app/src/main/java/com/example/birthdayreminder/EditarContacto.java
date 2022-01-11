@@ -42,6 +42,8 @@ public class EditarContacto extends AppCompatActivity {
 
 
     public void cargar(){
+        //ID
+        int id = MainActivity.idContacto;
         //Nombre contacto
         nombre = findViewById(R.id.edNombre);
         nombre.setText(PlaceholderContent.nombre);
