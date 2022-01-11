@@ -86,18 +86,25 @@ public class EditarContacto extends AppCompatActivity implements View.OnClickLis
 
         if (notificacion.isChecked()){
             addToDbSMS(v);
-            Toast.makeText(getApplicationContext(), "Seleccionado.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Se enviará SMS.", Toast.LENGTH_SHORT).show();
 
 
         } else if (!notificacion.isChecked()){
-            Toast.makeText(getApplicationContext(), "NO seleccionado.", Toast.LENGTH_SHORT).show();
-
+            Toast.makeText(getApplicationContext(), "Se notificará en la barra de notificaciones.", Toast.LENGTH_SHORT).show();
+            addToDbNotificacion(v);
         }
     }
 
 
     public void addToDbSMS(View v){
         MainActivity.db.execSQL("INSERT into miscumples VALUES(" + id + ", '"+SMS+"','" + mensaje.getText().toString()
+                + "','" + telefono.getSelectedItem().toString() +
+                "','" + cumple.getText().toString() + "','" + nombre.getText().toString() + "')");
+        Toast.makeText(getApplicationContext(), "Se añadió " + nombre.getText().toString() + " correctamente.", Toast.LENGTH_SHORT).show();
+    }
+
+    public void addToDbNotificacion(View v){
+        MainActivity.db.execSQL("INSERT into miscumples VALUES(" + id + ", '"+NOTIFICACION+"','" + mensaje.getText().toString()
                 + "','" + telefono.getSelectedItem().toString() +
                 "','" + cumple.getText().toString() + "','" + nombre.getText().toString() + "')");
         Toast.makeText(getApplicationContext(), "Se añadió " + nombre.getText().toString() + " correctamente.", Toast.LENGTH_SHORT).show();

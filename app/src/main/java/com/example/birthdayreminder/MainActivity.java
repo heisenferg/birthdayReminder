@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     AsyncTasks asyncTasks = new AsyncTasks();
     public static ArrayList telefonos = new ArrayList();
     public static Contacto contacto;
-
+    Button verContactos;
 
     public String nombrecontacto=null;
     public String cumple=null;
@@ -58,6 +58,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button buscar = findViewById(R.id.buttonBuscar);
         buscar.setOnClickListener(this);
+        verContactos = findViewById(R.id.buttonBD);
+        verContactos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ListadoConfigurado.class);
+                v.getContext().startActivity(intent);
+            }
+        });
 
         //   Base de datos.
 
