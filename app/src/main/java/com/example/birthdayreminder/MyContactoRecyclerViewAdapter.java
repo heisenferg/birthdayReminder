@@ -54,6 +54,9 @@ public class MyContactoRecyclerViewAdapter extends RecyclerView.Adapter<MyContac
                 Toast.makeText(v.getContext(), "ACTIVADO", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(v.getContext(), EditarContacto.class);
                 v.getContext().startActivity(intent);
+                mValues.clear();
+                notifyDataSetChanged();
+
                 return false;
             }
         });

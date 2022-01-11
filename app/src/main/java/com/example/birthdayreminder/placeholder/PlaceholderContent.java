@@ -1,5 +1,6 @@
 package com.example.birthdayreminder.placeholder;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,8 @@ import java.util.Map;
 public class PlaceholderContent {
     public static String nombre;
     public static String telefono;
+    public static int fon;
+    public static ArrayList telefonos;
     /**
      * An array of sample (placeholder) items.
      */

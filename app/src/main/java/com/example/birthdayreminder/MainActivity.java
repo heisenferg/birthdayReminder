@@ -19,6 +19,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -40,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public String phone = null;
     public int idContacto=0;
     AsyncTasks asyncTasks = new AsyncTasks();
+    public static ArrayList telefonos = new ArrayList();
+
 
     public String nombrecontacto=null;
     public String cumple=null;
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         solicitarPermisos();
         contactos = findViewById(R.id.etNombres);
+
         Button buscar = findViewById(R.id.buttonBuscar);
         buscar.setOnClickListener(this);
 
@@ -65,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 " FechaNacimiento VARCHAR(15),\n" +
                 " Nombre VARCHAR(128)\n" +
                 ");");
-
 
 
     }
@@ -131,36 +134,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         misContactos.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)))>0) {
 
                     idContacto = misContactos.getInt(misContactos.getColumnIndex(ContactsContract.CommonDataKinds.Nickname._ID));
-                    nombrecontacto = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Nickname.DISPLAY_NAME));
-                    //Lo guardo fuera para pasarlo al otro activity.
-                    PlaceholderContent.nombre = nombrecontacto;
-                    phone = phoneCursor.getString(4);
-                    String phone2 = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DATA));
-                    PlaceholderContent.telefono = phone;
-                    Log.d("PHONE2: ", phone2);
-                    // Async
-                    cumple = asyncTasks.getCumpleaños(idContacto,this);
 
-                    // Guardar contacto.
-                    Contacto contacto = new Contacto(idContacto, nombrecontacto, phone, cumple);
+                    do{
+                            nombrecontacto = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Nickname.DISPLAY_NAME));
+                            //Lo guardo fuera para pasarlo al otro activity.
+                            PlaceholderContent.nombre = nombrecontacto;
+                            phone = phoneCursor.getString(4);
+                            int phone2 = phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
 
-                    //abrirFoto(contacto); Async
-                    asyncTasks.abrirFoto(contacto, this);
-                    miLista.add(contacto);
+
+
+
+
+                            PlaceholderContent.telefono = phone;
+
+                            // Async
+                            cumple = asyncTasks.getCumpleaños(idContacto, this);
+
+                            // Guardar contacto.
+                            Contacto contacto = new Contacto(idContacto, nombrecontacto, phone, cumple);
+
+                            //abrirFoto(contacto); Async
+                            asyncTasks.abrirFoto(contacto, this);
+                         //   String numeroT = phoneCursor.getString(phone2);
+                          //  Log.d("PHONE2: ", numeroT);
+                            Log.d("Contacto: ", idContacto + ": " + nombrecontacto + ": " + phone + " " + cumple);
+                        telefonos.add(phone);
+                            miLista.add(contacto);
+
+                            /*
+
+                             */
+                    }while (phoneCursor.moveToNext());
                     miAdaptador.notifyDataSetChanged();
 
-                    Log.d("Cumpleaños async", cumple );
+                    //    Log.d("Cumpleaños async", cumple );
                 }
             }
 
-            Log.d("Contacto: ", idContacto + ": " + nombrecontacto + ": " + phone +" "+ cumple);
 
 
         }
-
-        miAdaptador.notifyDataSetChanged();
-
     }
-
-
 }
