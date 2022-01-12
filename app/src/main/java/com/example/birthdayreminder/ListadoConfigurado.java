@@ -54,7 +54,7 @@ public class ListadoConfigurado extends AppCompatActivity {
 
     //Establecer alarma desde BD.
     public static void seleccionBdAlarma() {
-        Alarma alarma = new Alarma();
+        MainActivity alarma = new MainActivity();
         String dia[] = null;
 
         ArrayAdapter<String> adaptador;

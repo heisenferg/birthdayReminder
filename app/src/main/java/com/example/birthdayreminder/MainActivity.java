@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
@@ -32,6 +34,7 @@ import com.example.birthdayreminder.placeholder.PlaceholderContent;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -189,5 +192,32 @@ miAdaptador.notifyDataSetChanged();
 
 
         }
+
+
+
     }
+
+    Alarma alarma =new Alarma();
+
+    public void setAlarma(String diaAlarma, String mesAlarma){
+        AlarmManager alarmManager;
+        PendingIntent alarmIntent;
+
+        Calendar calendario = Calendar.getInstance();
+        calendario.setTimeInMillis(System.currentTimeMillis());
+        calendario.set(Calendar.DAY_OF_MONTH, Integer.parseInt(diaAlarma));
+        calendario.set(Calendar.MONTH, Integer.parseInt(mesAlarma));
+        calendario.set(Calendar.HOUR_OF_DAY, alarma.horaAlarma);
+        calendario.set(Calendar.MINUTE, alarma.minutoAlarma);
+/*
+        Intent intent = new Intent(getApplicationContext(), Alarma.class);
+        alarmIntent = PendingIntent.getBroadcast(getApplicationContext(),0,intent, 0);
+
+        alarmManager = (AlarmManager) getApplicationContext().getSystemService(getApplicationContext().ALARM_SERVICE);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendario.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, alarmIntent);
+*/
+
+    }
+
 }

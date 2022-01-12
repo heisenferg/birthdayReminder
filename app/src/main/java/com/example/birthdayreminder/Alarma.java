@@ -32,7 +32,7 @@ public class Alarma extends BroadcastReceiver {
     }
 
 
-
+/*
     public void setAlarma(String diaAlarma, String mesAlarma){
         AlarmManager alarmManager;
         PendingIntent alarmIntent;
@@ -44,9 +44,11 @@ public class Alarma extends BroadcastReceiver {
         calendario.set(Calendar.HOUR_OF_DAY, horaAlarma);
         calendario.set(Calendar.MINUTE, minutoAlarma);
 
+        Intent intent = new Intent()
+
 
     }
-
+*/
 
 
 
