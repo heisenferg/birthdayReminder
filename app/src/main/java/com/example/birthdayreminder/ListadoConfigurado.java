@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListadoConfigurado extends AppCompatActivity {
+    private static String size="JKJKJJ";
     ListView listaContactos;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,10 +43,9 @@ public class ListadoConfigurado extends AppCompatActivity {
         listaContactos.setAdapter(adaptador);
         c.close();
     }
-
     //Establecer alarma desde BD.
     public static void seleccionBdAlarma(){
-        String size = "HFFFF";
+
         Log.d("HOLA", size);
     /*/    ArrayAdapter<String> adaptador;
         List<String> lista= new ArrayList<String>();
