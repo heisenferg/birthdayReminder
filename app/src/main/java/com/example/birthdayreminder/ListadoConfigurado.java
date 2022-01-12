@@ -44,24 +44,30 @@ public class ListadoConfigurado extends AppCompatActivity {
         c.close();
     }
     //Establecer alarma desde BD.
-    public static void seleccionBdAlarma(){
+    public static void seleccionBdAlarma() {
 
-        Log.d("HOLA", size);
-    /*/    ArrayAdapter<String> adaptador;
-        List<String> lista= new ArrayList<String>();
-        Cursor c = db.rawQuery("SELECT FechaNacimiento FROM MisCumples", null);
-        String[] arrayFecha = String.valueOf(c).split("-");
-        Log.d("AAA: ", arrayFecha[1] + " BBB " + arrayFecha[2]);
+
+
+        ArrayAdapter<String> adaptador;
+        List<String> lista = new ArrayList<String>();
+        Cursor c = MainActivity.db.rawQuery("SELECT FechaNacimiento FROM MisCumples", null);
+     //   Log.d("HOLA", size);
+//String dia = arrayFecha[0];
+        Log.d("AAA: ", "J");
         if (!c.moveToNext()) {
             Log.d("No hay guardado", "Fallo");
-        }else {
+        } else {
             while (c.moveToNext()) {
-     */
+                String arrayFecha = c.getString(0);
+                String[] dia = arrayFecha.split("-");
+                Log.d("CUMPLEAÑOS: ", "Dia " + dia[2] + " Mes " + dia[1]);
+            }
 
-        //alarma.setAlarma(mesAlarma,diaAlarma);
-        //      }
-        //  }
+
+            //alarma.setAlarma(mesAlarma,diaAlarma);
+            //      }
+            //  }
+        }
+
     }
-
-
 }
