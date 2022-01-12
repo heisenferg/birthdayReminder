@@ -24,16 +24,26 @@ public class ListadoConfigurado extends AppCompatActivity {
         listarGuardados();
     }
 
+    String notificacion;
+
     public void listarGuardados(){
         ArrayAdapter<String> adaptador;
         List<String> lista = new ArrayList<String>();
         Cursor c=MainActivity.db.rawQuery("SELECT Nombre, FechaNacimiento, Telefono, TipoNotif FROM MisCumples", null);
+
         if(c.getCount()==0)
             lista.add("No hay contactos guardados");
         else{
-            while(c.moveToNext())
-                lista.add("Nombre: "+c.getString(0)+" Cumpleaños: "+c.getString(1)
-                + " Teléfono: "+ c.getString(2) + " Tipo de notificación: " + (c.getString(3)));
+            while(c.moveToNext()) {
+                if (c.getString(3).equals("S")) {
+                    notificacion = "SMS";
+                } else {
+                    notificacion = "Notificación";
+                }
+
+                lista.add("Nombre: " + c.getString(0) + " Cumpleaños: " + c.getString(1)
+                        + " Teléfono: " + c.getString(2) + " Tipo de notificación: " + notificacion);
+            }
         }
         adaptador=new ArrayAdapter<String>
                 (getApplicationContext(),android.R.layout.simple_list_item_1,lista);

@@ -48,6 +48,7 @@ public class MyContactoRecyclerViewAdapter extends RecyclerView.Adapter<MyContac
         holder.foto.setImageBitmap(mValues.get(position).foto);
         holder.cumple.setText(mValues.get(position).cumple);
 
+        // Abrir actividad al pulsar en nombre o imagen
         holder.mNombre.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
