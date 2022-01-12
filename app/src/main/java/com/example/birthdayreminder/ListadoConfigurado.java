@@ -1,12 +1,8 @@
 package com.example.birthdayreminder;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ActionMode;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -19,6 +15,7 @@ import java.util.List;
 public class ListadoConfigurado extends AppCompatActivity {
     private static String size="JKJKJJ";
     ListView listaContactos;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,10 +40,12 @@ public class ListadoConfigurado extends AppCompatActivity {
         listaContactos.setAdapter(adaptador);
         c.close();
     }
+
+
     //Establecer alarma desde BD.
     public static void seleccionBdAlarma() {
-
-
+        Alarma alarma = new Alarma();
+        String dia[] = null;
 
         ArrayAdapter<String> adaptador;
         List<String> lista = new ArrayList<String>();
@@ -58,15 +57,11 @@ public class ListadoConfigurado extends AppCompatActivity {
         } else {
             while (c.moveToNext()) {
                 String arrayFecha = c.getString(0);
-                String[] dia = arrayFecha.split("-");
+                dia = arrayFecha.split("-");
                 Log.d("CUMPLEAÑOS: ", "Dia " + dia[2] + " Mes " + dia[1]);
+                alarma.setAlarma(dia[2], dia[1]);
             }
 
-
-            //alarma.setAlarma(mesAlarma,diaAlarma);
-            //      }
-            //  }
         }
-
     }
 }

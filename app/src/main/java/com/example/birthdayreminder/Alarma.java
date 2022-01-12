@@ -33,14 +33,14 @@ public class Alarma extends BroadcastReceiver {
 
 
 
-    public void setAlarma(int diaAlarma, int mesAlarma){
+    public void setAlarma(String diaAlarma, String mesAlarma){
         AlarmManager alarmManager;
         PendingIntent alarmIntent;
 
         Calendar calendario = Calendar.getInstance();
         calendario.setTimeInMillis(System.currentTimeMillis());
-        calendario.set(Calendar.DAY_OF_MONTH, diaAlarma);
-        calendario.set(Calendar.MONTH, mesAlarma);
+        calendario.set(Calendar.DAY_OF_MONTH, Integer.parseInt(diaAlarma));
+        calendario.set(Calendar.MONTH, Integer.parseInt(mesAlarma));
         calendario.set(Calendar.HOUR_OF_DAY, horaAlarma);
         calendario.set(Calendar.MINUTE, minutoAlarma);
 

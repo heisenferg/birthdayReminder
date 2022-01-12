@@ -47,8 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button verContactos;
     public String nombrecontacto=null;
     public String cumple=null;
-    public static int diaAlarma;
-    public static int mesAlarma;
+
 
 
     @Override

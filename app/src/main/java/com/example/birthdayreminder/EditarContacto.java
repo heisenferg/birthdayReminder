@@ -93,6 +93,8 @@ public class EditarContacto extends AppCompatActivity implements View.OnClickLis
             Toast.makeText(getApplicationContext(), "Se notificará en la barra de notificaciones.", Toast.LENGTH_SHORT).show();
             addToDbNotificacion(v);
         }
+
+
     }
 
 
