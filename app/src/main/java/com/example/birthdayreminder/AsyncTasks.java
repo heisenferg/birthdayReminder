@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Binder;
 import android.provider.ContactsContract;
 import android.renderscript.ScriptGroup;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -21,8 +22,10 @@ import java.io.InputStream;
 
 public class AsyncTasks extends AsyncTask {
  public static String cumple;
+// public static String[] arrayFecha;
     @Override
     protected Object doInBackground(Object[] objects) {
+
         return null;
     }
 
@@ -59,6 +62,8 @@ public class AsyncTasks extends AsyncTask {
         while(c.moveToNext())
             fecha= c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Event.START_DATE));
         cumple = fecha;
+      //  arrayFecha = fecha.split("-");
+     //   Log.d("DIA:", arrayFecha[2] + " MES: " + arrayFecha[1]);
         return fecha;
     }
 }

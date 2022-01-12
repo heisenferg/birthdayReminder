@@ -1,7 +1,12 @@
 package com.example.birthdayreminder;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.ActionMode;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -37,5 +42,26 @@ public class ListadoConfigurado extends AppCompatActivity {
         listaContactos.setAdapter(adaptador);
         c.close();
     }
+
+    //Establecer alarma desde BD.
+    public static void seleccionBdAlarma(){
+        String size = "HFFFF";
+        Log.d("HOLA", size);
+    /*/    ArrayAdapter<String> adaptador;
+        List<String> lista= new ArrayList<String>();
+        Cursor c = db.rawQuery("SELECT FechaNacimiento FROM MisCumples", null);
+        String[] arrayFecha = String.valueOf(c).split("-");
+        Log.d("AAA: ", arrayFecha[1] + " BBB " + arrayFecha[2]);
+        if (!c.moveToNext()) {
+            Log.d("No hay guardado", "Fallo");
+        }else {
+            while (c.moveToNext()) {
+     */
+
+        //alarma.setAlarma(mesAlarma,diaAlarma);
+        //      }
+        //  }
+    }
+
 
 }

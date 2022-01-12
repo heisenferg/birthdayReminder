@@ -32,6 +32,7 @@ import com.example.birthdayreminder.placeholder.PlaceholderContent;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public static ArrayList<Contacto> miLista = new ArrayList<Contacto>();
@@ -44,14 +45,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static ArrayList telefonos = new ArrayList();
     public static Contacto contacto;
     Button verContactos;
-
     public String nombrecontacto=null;
     public String cumple=null;
+    public static int diaAlarma;
+    public static int mesAlarma;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         miAdaptador = new MyContactoRecyclerViewAdapter(miLista);
+
         setContentView(R.layout.activity_main);
         solicitarPermisos();
         contactos = findViewById(R.id.etNombres);
@@ -79,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 " Nombre VARCHAR(128)\n" +
                 ");");
 
+        ListadoConfigurado.seleccionBdAlarma();
 
     }
 
@@ -97,6 +102,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
           //  }
         }
     }
+
+
 
     @SuppressLint("Range")
     @Override
