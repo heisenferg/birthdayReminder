@@ -51,8 +51,7 @@ public class ListadoConfigurado extends AppCompatActivity {
         ArrayAdapter<String> adaptador;
         List<String> lista = new ArrayList<String>();
         Cursor c = MainActivity.db.rawQuery("SELECT FechaNacimiento FROM MisCumples", null);
-     //   Log.d("HOLA", size);
-//String dia = arrayFecha[0];
+
         Log.d("AAA: ", "J");
         if (!c.moveToNext()) {
             Log.d("No hay guardado", "Fallo");
