@@ -29,7 +29,7 @@ public class ListadoConfigurado extends AppCompatActivity {
     public void listarGuardados(){
         ArrayAdapter<String> adaptador;
         List<String> lista = new ArrayList<String>();
-        Cursor c=MainActivity.db.rawQuery("SELECT Nombre, FechaNacimiento, Telefono, TipoNotif FROM MisCumples", null);
+        Cursor c=MainActivity.db.rawQuery("SELECT Nombre, FechaNacimiento, Telefono, TipoNotif, Mensaje FROM MisCumples", null);
 
         if(c.getCount()==0)
             lista.add("No hay contactos guardados");
@@ -42,7 +42,8 @@ public class ListadoConfigurado extends AppCompatActivity {
                 }
 
                 lista.add("Nombre: " + c.getString(0) + " Cumpleaños: " + c.getString(1)
-                        + " Teléfono: " + c.getString(2) + " Tipo de notificación: " + notificacion);
+                        + " Teléfono: " + c.getString(2) + " Tipo de notificación: " + notificacion
+                        + " Mensaje: " + c.getString(4));
             }
         }
         adaptador=new ArrayAdapter<String>
@@ -51,7 +52,7 @@ public class ListadoConfigurado extends AppCompatActivity {
         c.close();
     }
 
-   public static String dia[] = null;
+    public static String dia[] = null;
 
     //Establecer alarma desde BD.
     public static void seleccionBdAlarma() {

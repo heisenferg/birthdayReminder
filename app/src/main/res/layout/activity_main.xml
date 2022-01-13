@@ -88,14 +88,4 @@
         app:layout_constraintStart_toStartOf="@+id/buttonBD"
         app:layout_constraintTop_toBottomOf="@+id/buttonBD" />
 
-    <Button
-        android:id="@+id/Pick"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="7dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="@+id/buttonBD"
-        app:layout_constraintStart_toEndOf="@+id/buttonBD"
-        app:layout_constraintTop_toTopOf="@+id/buttonBD" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

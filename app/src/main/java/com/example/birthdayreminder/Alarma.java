@@ -2,10 +2,8 @@ package com.example.birthdayreminder;
 
 
 import android.app.AlarmManager;
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -20,8 +18,8 @@ import java.util.Calendar;
 import java.util.List;
 
 public class Alarma extends BroadcastReceiver {
-    public int horaAlarma=0;
-    public int minutoAlarma=0;
+    public int horaAlarma;
+    public int minutoAlarma;
 
     public int getHoraAlarma() {
         return horaAlarma;
@@ -48,6 +46,10 @@ public class Alarma extends BroadcastReceiver {
             ContextCompat.startForegroundService(context, service1 );
             Log.d("Cumpleaños", "Alarma de cumpleaños disparada correctamente.");
         }
+        Intent service1 = new Intent(context, MainActivity.class);
+        service1.setData((Uri.parse("custom://" + System.currentTimeMillis())));
+        ContextCompat.startForegroundService(context, service1 );
+        Log.d("Cumpleaños", "Alarma de cumpleaños disparada correctamente.");
 
 
     }

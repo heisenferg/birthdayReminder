@@ -1,5 +1,8 @@
 package com.example.birthdayreminder;
 
+import static android.widget.Toast.LENGTH_LONG;
+import static android.widget.Toast.LENGTH_SHORT;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -7,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
-import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
@@ -24,15 +26,17 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.birthdayreminder.placeholder.PlaceholderContent;
 
@@ -91,42 +95,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //ListadoConfigurado.seleccionBdAlarma();
 
-
-
-        //PRUEBA IMPLEMENTACIÓN TIMEPICKER
-        Button picker= findViewById(R.id.Pick);
-        picker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar ahora = Calendar.getInstance();
-                int horaActual = ahora.get(Calendar.HOUR_OF_DAY);
-                int minutoActual = ahora.get(Calendar.MINUTE);
-                TimePickerDialog timePickerDialog = new TimePickerDialog(v.getContext(), new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        alarma.setHoraAlarma(hourOfDay);
-                        alarma.setMinutoAlarma(minute);
-                    }
-                }, horaActual, minutoActual, true);
-                timePickerDialog.show();
-            }
-        });
-
     }
 
 
     private void solicitarPermisos(){
         boolean permisos_concedidos=false;
 
-     //   while (permisos_concedidos==false) {
-            if (checkSelfPermission(Manifest.permission.READ_CONTACTS) !=
-                    PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, 1);
-                requestPermissions(new String[]{Manifest.permission.SEND_SMS}, 1);
-            } else if (checkSelfPermission(Manifest.permission.READ_CONTACTS) ==
-                    PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED){
-                permisos_concedidos=true;
-          //  }
+        //   while (permisos_concedidos==false) {
+        if (checkSelfPermission(Manifest.permission.READ_CONTACTS) !=
+                PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, 1);
+            requestPermissions(new String[]{Manifest.permission.SEND_SMS}, 1);
+        } else if (checkSelfPermission(Manifest.permission.READ_CONTACTS) ==
+                PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED){
+            permisos_concedidos=true;
+            //  }
         }
     }
 
@@ -180,32 +163,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     PlaceholderContent.idContacto = idContacto;
 
                     do{
-                            nombrecontacto = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Nickname.DISPLAY_NAME));
-                            //Lo guardo fuera para pasarlo al otro activity.
-                            PlaceholderContent.nombre = nombrecontacto;
-                            phone = phoneCursor.getString(4);
+                        nombrecontacto = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Nickname.DISPLAY_NAME));
+                        //Lo guardo fuera para pasarlo al otro activity.
+                        PlaceholderContent.nombre = nombrecontacto;
+                        phone = phoneCursor.getString(4);
 
 
-                            PlaceholderContent.telefono = phone;
+                        PlaceholderContent.telefono = phone;
 
-                            // Async
-                            cumple = asyncTasks.getCumpleaños(idContacto, this);
+                        // Async
+                        cumple = asyncTasks.getCumpleaños(idContacto, this);
 
-                            // Guardar contacto.
-                            contacto = new Contacto(idContacto, nombrecontacto, phone, cumple);
+                        // Guardar contacto.
+                        contacto = new Contacto(idContacto, nombrecontacto, phone, cumple);
 
 
-                            //abrirFoto(contacto); Async
-                            asyncTasks.abrirFoto(contacto, this);
+                        //abrirFoto(contacto); Async
+                        asyncTasks.abrirFoto(contacto, this);
 
-                         //   String numeroT = phoneCursor.getString(phone2);
-                          //  Log.d("PHONE2: ", numeroT);
-                            Log.d("Contacto: ", idContacto + ": " + nombrecontacto + ": " + phone + " " + cumple);
+                        //   String numeroT = phoneCursor.getString(phone2);
+                        //  Log.d("PHONE2: ", numeroT);
+                        Log.d("Contacto: ", idContacto + ": " + nombrecontacto + ": " + phone + " " + cumple);
                         telefonos.add(phone);
-                            miLista.add(contacto);
+                        miLista.add(contacto);
 
 
-miAdaptador.notifyDataSetChanged();
+                        miAdaptador.notifyDataSetChanged();
 
                     }while (phoneCursor.moveToNext());
 
@@ -222,7 +205,7 @@ miAdaptador.notifyDataSetChanged();
 
     }
 
-Alarma alarma = new Alarma();
+    Alarma alarma = new Alarma();
     public void setAlarma(String diaAlarma, String mesAlarma){
         AlarmManager alarmManager;
         PendingIntent alarmIntent;
@@ -246,6 +229,44 @@ Alarma alarma = new Alarma();
 
     }
 
+    // MENÚ
+    @Override
+    public boolean onCreateOptionsMenu (Menu menu){
+        getMenuInflater().inflate(R.menu.mimenu, menu);
+        return true;
+    }
 
+    // SELECCIONES DE MENÚ
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+        switch (id){
+            case R.id.miMenu:
+                seleccionHora();
+                Toast.makeText(getApplicationContext(), "Hora a la que sonará la alarma", LENGTH_LONG).show();
+                return true;
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+        public void seleccionHora(){
+            Calendar ahora = Calendar.getInstance();
+            int horaActual = ahora.get(Calendar.HOUR_OF_DAY);
+            int minutoActual = ahora.get(Calendar.MINUTE);
+            TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+                @Override
+                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                    alarma.setHoraAlarma(hourOfDay);
+                    alarma.setMinutoAlarma(minute);
+                    Toast.makeText(getApplicationContext(), "La alarma sonará a las " + alarma.getHoraAlarma() +
+                            " y " + alarma.getMinutoAlarma() + " minutos.", LENGTH_SHORT).show();
+                }
+            }, horaActual, minutoActual, true);
+            timePickerDialog.show();
+
+        }
 
 }

@@ -81,7 +81,7 @@ public class EditarContacto extends AppCompatActivity implements View.OnClickLis
                 " " + cumple.getText().toString() + " " + nombre.getText().toString() );
     }
 
-Util util = new Util();
+    Util util = new Util();
     @Override
     public void onClick(View v) {
 
