@@ -51,11 +51,11 @@ public class ListadoConfigurado extends AppCompatActivity {
         c.close();
     }
 
+   private static String dia[] = null;
 
     //Establecer alarma desde BD.
     public static void seleccionBdAlarma() {
         MainActivity alarma = new MainActivity();
-        String dia[] = null;
 
         ArrayAdapter<String> adaptador;
         List<String> lista = new ArrayList<String>();

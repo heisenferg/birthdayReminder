@@ -2,6 +2,7 @@ package com.example.birthdayreminder;
 
 
 import android.app.AlarmManager;
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,8 +16,16 @@ import java.util.Calendar;
 import java.util.List;
 
 public class Alarma extends BroadcastReceiver {
-    public int horaAlarma;
-    public int minutoAlarma;
+    public int horaAlarma=0;
+    public int minutoAlarma=0;
+
+    public int getHoraAlarma() {
+        return horaAlarma;
+    }
+
+    public int getMinutoAlarma() {
+        return minutoAlarma;
+    }
 
     public void setHoraAlarma(int horaAlarma) {
         this.horaAlarma = horaAlarma;
@@ -28,27 +37,12 @@ public class Alarma extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
         Log.d("Cumpleaños", "Alarma de cumpleaños disparada correctamente.");
     }
 
 
-/*
-    public void setAlarma(String diaAlarma, String mesAlarma){
-        AlarmManager alarmManager;
-        PendingIntent alarmIntent;
 
-        Calendar calendario = Calendar.getInstance();
-        calendario.setTimeInMillis(System.currentTimeMillis());
-        calendario.set(Calendar.DAY_OF_MONTH, Integer.parseInt(diaAlarma));
-        calendario.set(Calendar.MONTH, Integer.parseInt(mesAlarma));
-        calendario.set(Calendar.HOUR_OF_DAY, horaAlarma);
-        calendario.set(Calendar.MINUTE, minutoAlarma);
-
-        Intent intent = new Intent()
-
-
-    }
-*/
 
 
 

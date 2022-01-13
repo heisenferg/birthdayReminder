@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
+import android.app.DatePickerDialog;
 import android.app.PendingIntent;
+import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
@@ -26,9 +28,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.example.birthdayreminder.placeholder.PlaceholderContent;
 
@@ -85,7 +89,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 " Nombre VARCHAR(128)\n" +
                 ");");
 
-        ListadoConfigurado.seleccionBdAlarma();
+     //   ListadoConfigurado.seleccionBdAlarma();
+
+
+
+        //PRUEBA IMPLEMENTACIÓN TIMEPICKER
+        Button picker= findViewById(R.id.Pick);
+        picker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar ahora = Calendar.getInstance();
+                int horaActual = ahora.get(Calendar.HOUR_OF_DAY);
+                int minutoActual = ahora.get(Calendar.MINUTE);
+                TimePickerDialog timePickerDialog = new TimePickerDialog(v.getContext(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        alarma.setHoraAlarma(hourOfDay);
+                        alarma.setMinutoAlarma(minute);
+                    }
+                }, horaActual, minutoActual, true);
+                timePickerDialog.show();
+            }
+        });
 
     }
 
@@ -197,8 +222,7 @@ miAdaptador.notifyDataSetChanged();
 
     }
 
-    Alarma alarma =new Alarma();
-
+Alarma alarma = new Alarma();
     public void setAlarma(String diaAlarma, String mesAlarma){
         AlarmManager alarmManager;
         PendingIntent alarmIntent;
@@ -207,17 +231,19 @@ miAdaptador.notifyDataSetChanged();
         calendario.setTimeInMillis(System.currentTimeMillis());
         calendario.set(Calendar.DAY_OF_MONTH, Integer.parseInt(diaAlarma));
         calendario.set(Calendar.MONTH, Integer.parseInt(mesAlarma));
-        calendario.set(Calendar.HOUR_OF_DAY, alarma.horaAlarma);
-        calendario.set(Calendar.MINUTE, alarma.minutoAlarma);
-/*
+        calendario.set(Calendar.HOUR_OF_DAY, alarma.getHoraAlarma());
+        calendario.set(Calendar.MINUTE, alarma.getMinutoAlarma());
+Log.d("ERROR: ", "Lee hsata aquí");
         Intent intent = new Intent(getApplicationContext(), Alarma.class);
         alarmIntent = PendingIntent.getBroadcast(getApplicationContext(),0,intent, 0);
 
         alarmManager = (AlarmManager) getApplicationContext().getSystemService(getApplicationContext().ALARM_SERVICE);
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendario.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, alarmIntent);
-*/
+
 
     }
+
+
 
 }
