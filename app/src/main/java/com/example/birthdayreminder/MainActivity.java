@@ -240,9 +240,8 @@ Alarma alarma = new Alarma();
         alarmIntent = PendingIntent.getBroadcast(getApplicationContext(),0,intent2, PendingIntent.FLAG_NO_CREATE);
 
         alarmManager = (AlarmManager) getApplicationContext().getSystemService(getApplicationContext().ALARM_SERVICE);
-         if (alarmIntent != null && alarmManager != null){
-             alarmManager.cancel(alarmIntent);
-         }
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendario.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, alarmIntent);
 
 
     }
