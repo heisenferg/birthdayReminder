@@ -23,6 +23,9 @@
         </activity>
         <activity android:name=".EditarContacto"/>
         <activity android:name=".ListadoConfigurado"/>
+
+        <receiver android:name=".Alarma"
+            android:enabled="true"/>
     </application>
 
 </manifest>

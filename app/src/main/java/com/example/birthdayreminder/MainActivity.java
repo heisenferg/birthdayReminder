@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 " Nombre VARCHAR(128)\n" +
                 ");");
 
-     //   ListadoConfigurado.seleccionBdAlarma();
+        ListadoConfigurado.seleccionBdAlarma();
 
 
 
@@ -233,13 +233,16 @@ Alarma alarma = new Alarma();
         calendario.set(Calendar.MONTH, Integer.parseInt(mesAlarma));
         calendario.set(Calendar.HOUR_OF_DAY, alarma.getHoraAlarma());
         calendario.set(Calendar.MINUTE, alarma.getMinutoAlarma());
-Log.d("ERROR: ", "Lee hsata aquí");
-        Intent intent = new Intent(getApplicationContext(), Alarma.class);
-        alarmIntent = PendingIntent.getBroadcast(getApplicationContext(),0,intent, 0);
+
+        Log.d("ERROR: ", "Lee hasta aquí. Día " + Integer.parseInt(diaAlarma) + " mes: " + Integer.parseInt(mesAlarma) + " hora y minuto: " + alarma.horaAlarma + " " + alarma.minutoAlarma);
+
+        Intent intent2 = new Intent(getApplicationContext(), Alarma.class);
+        alarmIntent = PendingIntent.getBroadcast(getApplicationContext(),0,intent2, PendingIntent.FLAG_NO_CREATE);
 
         alarmManager = (AlarmManager) getApplicationContext().getSystemService(getApplicationContext().ALARM_SERVICE);
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendario.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, alarmIntent);
+         if (alarmIntent != null && alarmManager != null){
+             alarmManager.cancel(alarmIntent);
+         }
 
 
     }
