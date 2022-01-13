@@ -37,8 +37,10 @@ public class Alarma extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
+            Log.d("Cumpleaños", "Alarma de cumpleaños disparada correctamente.");
+        }
 
-        Log.d("Cumpleaños", "Alarma de cumpleaños disparada correctamente.");
     }
 
 
