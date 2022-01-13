@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 " Nombre VARCHAR(128)\n" +
                 ");");
 
-        ListadoConfigurado.seleccionBdAlarma();
+        //ListadoConfigurado.seleccionBdAlarma();
 
 
 

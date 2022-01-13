@@ -5,11 +5,15 @@ import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,8 +42,13 @@ public class Alarma extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
+
+            Intent service1 = new Intent(context, MainActivity.class);
+            service1.setData((Uri.parse("custom://" + System.currentTimeMillis())));
+            ContextCompat.startForegroundService(context, service1 );
             Log.d("Cumpleaños", "Alarma de cumpleaños disparada correctamente.");
         }
+
 
     }
 

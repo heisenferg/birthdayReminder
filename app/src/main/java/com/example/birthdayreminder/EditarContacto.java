@@ -25,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.birthdayreminder.placeholder.PlaceholderContent;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 
 public class EditarContacto extends AppCompatActivity implements View.OnClickListener {
@@ -40,6 +41,7 @@ public class EditarContacto extends AppCompatActivity implements View.OnClickLis
     public final char NOTIFICACION='N';
     Button guardar;
     int id;
+    Calendar hoy;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,7 +81,7 @@ public class EditarContacto extends AppCompatActivity implements View.OnClickLis
                 " " + cumple.getText().toString() + " " + nombre.getText().toString() );
     }
 
-
+Util util = new Util();
     @Override
     public void onClick(View v) {
 
@@ -94,6 +96,7 @@ public class EditarContacto extends AppCompatActivity implements View.OnClickLis
             addToDbNotificacion(v);
         }
 
+        util.setAlarma(1, hoy.getTimeInMillis(), EditarContacto.this);
 
     }
 
