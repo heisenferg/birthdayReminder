@@ -92,7 +92,6 @@ public class Alarma extends BroadcastReceiver {
 
                 if (numMesSinCero == mesActual && numDiaSinCero == diaDeHoy) {
                     Log.d("Hay cumpleaños hoy", "Alarma de cumpleaños disparada correctamente. Hace los años " + c.getString(0));
-                    break;
                 } else {
                     break;
                 }
