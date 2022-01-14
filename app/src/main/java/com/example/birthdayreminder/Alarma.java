@@ -94,11 +94,12 @@ public class Alarma extends BroadcastReceiver {
 
                 if (numMesSinCero == mesActual && numDiaSinCero == diaDeHoy) {
                     Log.d("Hay cumpleaños hoy", "Alarma de cumpleaños disparada correctamente. Hace los años " + c.getString(0));
-                    if (notificacion.equals("SMS")){
+                    if (notificacion == "SMS"){
                         enviarSms(c.getString(2), c.getString(4));
-                    } else if (notificacion.equals("Notificación")){
+                    } else if (notificacion == "Notificación"){
                         enviarNotificacion();
                     }
+
                 } else {
                     break;
                 }
@@ -112,7 +113,7 @@ public class Alarma extends BroadcastReceiver {
     }
 
     public void enviarNotificacion(){
-
+        Log.d("NOTIFICACIÓN", "notificar");
     }
 
     public void enviarSms(String telefono, String mensaje){
