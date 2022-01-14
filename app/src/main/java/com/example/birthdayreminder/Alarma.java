@@ -75,14 +75,17 @@ public class Alarma extends BroadcastReceiver {
                 Log.d("CUMPLEAÑOS: ", "Dia " + Integer.parseInt(datos[2]) + " MesB " + datos[1]);
 
                 // Elimino los ceros de delante para comparar fechas
-                int numDIasincero = Integer.parseInt(datos[1]);
-                Log.d("CUMPLEAÑOS: ", "DiaActual " + diaDeHoy + " MesACtual " + mesActual + " DATOS " + numDIasincero);
+                int numDiaSinCero = Integer.parseInt(datos[2]);
+                int numMesSinCero = Integer.parseInt(datos[1]);
+                Log.d("CUMPLEAÑOS: ", "DiaActual " + diaDeHoy + " MesACtual " + mesActual + " DATOS dia / mes" + numDiaSinCero + "/" + numMesSinCero);
 
 
 
-                if (Integer.parseInt(datos[1]) == mesActual && Integer.parseInt(datos[2])==diaDeHoy){
-                    Log.d("Hay cumpleaños hoy", "Alarma de cumpleaños disparada correctamente.");
+                if (numMesSinCero == mesActual && numDiaSinCero==diaDeHoy){
+                    Log.d("Hay cumpleaños hoy", "Alarma de cumpleaños disparada correctamente. Hace los años " + c.getString(0));
 
+                } else {
+                    Log.d("NO", "No hay cumpleaños hoy");
                 }
 
 
