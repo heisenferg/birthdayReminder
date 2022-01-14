@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         alarmManager = (AlarmManager) getApplicationContext().getSystemService(getApplicationContext().ALARM_SERVICE);
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendario.getTimeInMillis(),
                      AlarmManager.INTERVAL_DAY, alarmIntent);
-        Log.d("ERROR: ¿?", "Lee hasta aquí. Hora " + hora + " minuto: " + minuto + " hora y minuto: ");
+        Log.d("ERROR: ¿?", "Lee hasta aquí. Hora " + hora + " minuto: " + minuto);
 
 
     }

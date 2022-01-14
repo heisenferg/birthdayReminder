@@ -49,21 +49,19 @@ public class Alarma extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d("FERNANDO", "Alarma de cumpleaños disparada correctamente");
-        Cursor c=MainActivity.db.rawQuery("SELECT Nombre, FechaNacimiento, Telefono, TipoNotif, Mensaje FROM MisCumples", null);
 
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("ddMM");
+/*
+        Cursor c = MainActivity.db.rawQuery("SELECT Nombre, FechaNacimiento, Telefono, TipoNotif, Mensaje FROM MisCumples", null);
 
-        if(c.getCount()==0)
+        if (c.getCount() == 0)
             Log.d("FALLO", "No hay contactos guardados");
-        else{
-            while(c.moveToNext()) {
+        else {
+            while (c.moveToNext()) {
                 if (c.getString(3).equals("S")) {
                     notificacion = "SMS";
                 } else {
                     notificacion = "Notificación";
                 }
-
 
 
                 Log.d("Nombre: ", c.getString(0) + " Cumpleaños: " + c.getString(1)
@@ -75,43 +73,25 @@ public class Alarma extends BroadcastReceiver {
                 Log.d("CUMPLEAÑOS: ", "Dia " + Integer.parseInt(datos[2]) + " MesB " + datos[1]);
 
                 // Elimino los ceros de delante para comparar fechas
+
                 int numDiaSinCero = Integer.parseInt(datos[2]);
                 int numMesSinCero = Integer.parseInt(datos[1]);
                 Log.d("CUMPLEAÑOS: ", "DiaActual " + diaDeHoy + " MesACtual " + mesActual + " DATOS dia / mes" + numDiaSinCero + "/" + numMesSinCero);
 
 
-
-                if (numMesSinCero == mesActual && numDiaSinCero==diaDeHoy){
+                if (numMesSinCero == mesActual && numDiaSinCero == diaDeHoy) {
                     Log.d("Hay cumpleaños hoy", "Alarma de cumpleaños disparada correctamente. Hace los años " + c.getString(0));
 
-                } else {
-                    Log.d("NO", "No hay cumpleaños hoy");
                 }
 
 
             }
+
         }
 
-        c.close();
-
-
-
-
-        Log.d("FERNANDO", "Mes " +  " Día " + diaDeHoy);
-
-
-
-
-
+        c.close();*/
+        Log.d("PROBANDO", "Funciona sin cerrar");
     }
-
-    public void listarGuardados(){
-        ArrayAdapter<String> adaptador;
-        List<String> lista = new ArrayList<String>();
-
-    }
-
-
 
 
 

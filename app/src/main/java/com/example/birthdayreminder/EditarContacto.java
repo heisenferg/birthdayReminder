@@ -85,7 +85,7 @@ public class EditarContacto extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
 
-        util.setAlarma(1, hoy.getTimeInMillis(), EditarContacto.this);
+        //util.setAlarma(1, hoy.getTimeInMillis(), EditarContacto.this);
 
         if (notificacion.isChecked()){
             addToDbSMS(v);
