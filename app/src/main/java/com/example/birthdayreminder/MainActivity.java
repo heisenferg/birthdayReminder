@@ -96,9 +96,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    boolean permisos_concedidos=false;
 
     private void solicitarPermisos(){
-        boolean permisos_concedidos=false;
 
         //   while (permisos_concedidos==false) {
         if (checkSelfPermission(Manifest.permission.READ_CONTACTS) !=
@@ -108,7 +108,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (checkSelfPermission(Manifest.permission.READ_CONTACTS) ==
                 PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED){
             permisos_concedidos=true;
-            //  }
+        }
+        if (checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED){
+            requestPermissions(new String[]{Manifest.permission.SEND_SMS}, 1);
+        } else if (checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
+            permisos_concedidos = true;
         }
     }
 

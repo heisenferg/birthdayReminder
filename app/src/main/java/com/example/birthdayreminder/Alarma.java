@@ -10,8 +10,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
@@ -92,6 +94,11 @@ public class Alarma extends BroadcastReceiver {
 
                 if (numMesSinCero == mesActual && numDiaSinCero == diaDeHoy) {
                     Log.d("Hay cumpleaños hoy", "Alarma de cumpleaños disparada correctamente. Hace los años " + c.getString(0));
+                    if (notificacion.equals("SMS")){
+                        enviarSms(c.getString(2), c.getString(4));
+                    } else if (notificacion.equals("Notificación")){
+                        enviarNotificacion();
+                    }
                 } else {
                     break;
                 }
@@ -108,7 +115,15 @@ public class Alarma extends BroadcastReceiver {
 
     }
 
-    public void enviarSms(){
+    public void enviarSms(String telefono, String mensaje){
+        try {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(telefono,null, mensaje, null, null);
+            Log.d("SMS", "Enviado");
+        } catch (Exception e){
+            e.printStackTrace();
+            Log.d("SMS", "No enviado");
+        }
 
     }
 
