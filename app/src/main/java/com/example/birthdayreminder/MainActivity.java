@@ -206,25 +206,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     Alarma alarma = new Alarma();
-    public void setAlarma(String diaAlarma, String mesAlarma){
+
+    public void setAlarma(int hora, int minuto){
         AlarmManager alarmManager;
         PendingIntent alarmIntent;
 
         Calendar calendario = Calendar.getInstance();
         calendario.setTimeInMillis(System.currentTimeMillis());
-        calendario.set(Calendar.DAY_OF_MONTH, Integer.parseInt(diaAlarma));
-        calendario.set(Calendar.MONTH, Integer.parseInt(mesAlarma));
-        calendario.set(Calendar.HOUR_OF_DAY, alarma.getHoraAlarma());
-        calendario.set(Calendar.MINUTE, alarma.getMinutoAlarma());
+        calendario.set(Calendar.HOUR_OF_DAY, hora);
+        calendario.set(Calendar.MINUTE, minuto);
 
-        Log.d("ERROR: ", "Lee hasta aquí. Día " + Integer.parseInt(diaAlarma) + " mes: " + Integer.parseInt(mesAlarma) + " hora y minuto: " + alarma.horaAlarma + " " + alarma.minutoAlarma);
 
         Intent intent2 = new Intent(getApplicationContext(), Alarma.class);
-        alarmIntent = PendingIntent.getBroadcast(getApplicationContext(),0,intent2, PendingIntent.FLAG_NO_CREATE);
+        alarmIntent = PendingIntent.getBroadcast(getApplicationContext(),0,intent2, 0);
 
         alarmManager = (AlarmManager) getApplicationContext().getSystemService(getApplicationContext().ALARM_SERVICE);
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendario.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, alarmIntent);
+                     AlarmManager.INTERVAL_DAY, alarmIntent);
+        Log.d("ERROR: ¿?", "Lee hasta aquí. Hora " + hora + " minuto: " + minuto + " hora y minuto: ");
 
 
     }
@@ -244,7 +243,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.miMenu:
                 seleccionHora();
                 Toast.makeText(getApplicationContext(), "Hora a la que sonará la alarma", LENGTH_LONG).show();
-                return true;
+                Log.d("HORA ", alarma.getHoraAlarma() + " " + alarma.getMinutoAlarma());
+                break;
 
         }
 
@@ -261,6 +261,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                     alarma.setHoraAlarma(hourOfDay);
                     alarma.setMinutoAlarma(minute);
+                    setAlarma(alarma.getHoraAlarma(), alarma.getMinutoAlarma());
                     Toast.makeText(getApplicationContext(), "La alarma sonará a las " + alarma.getHoraAlarma() +
                             " y " + alarma.getMinutoAlarma() + " minutos.", LENGTH_SHORT).show();
                 }

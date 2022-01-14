@@ -33,10 +33,7 @@
 
         <receiver android:name=".Alarma"
             android:exported="true"
-            android:enabled="false">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
-            </intent-filter>
+            android:enabled="true">
         </receiver>
 
     </application>

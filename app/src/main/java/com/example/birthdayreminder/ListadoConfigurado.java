@@ -54,15 +54,16 @@ public class ListadoConfigurado extends AppCompatActivity {
 
     public static String dia[] = null;
 
+
     //Establecer alarma desde BD.
     public static void seleccionBdAlarma() {
-        MainActivity alarma = new MainActivity();
+        MainActivity mainActivity = new MainActivity();
+        Alarma alarma = new Alarma();
 
         ArrayAdapter<String> adaptador;
         List<String> lista = new ArrayList<String>();
         Cursor c = MainActivity.db.rawQuery("SELECT FechaNacimiento FROM MisCumples", null);
 
-        Log.d("AAA: ", "J");
         if (!c.moveToNext()) {
             Log.d("No hay guardado", "Fallo");
         } else {
@@ -70,7 +71,7 @@ public class ListadoConfigurado extends AppCompatActivity {
                 String arrayFecha = c.getString(0);
                 dia = arrayFecha.split("-");
                 Log.d("CUMPLEAÑOS: ", "Dia " + dia[2] + " Mes " + dia[1]);
-                alarma.setAlarma(dia[2], dia[1]);
+                //mainActivity.setAlarma(alarma.getHoraAlarma(), alarma.getMinutoAlarma());
             }
 
         }
