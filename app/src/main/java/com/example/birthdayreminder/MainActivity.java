@@ -24,6 +24,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -58,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button verContactos;
     public String nombrecontacto=null;
     public String cumple=null;
+    String telefono = "693438334";
+    String mensaje = "HOla felicidades";
 
 
 
@@ -69,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         solicitarPermisos();
         contactos = findViewById(R.id.etNombres);
+        enviarSms(telefono, mensaje);
 
         Button buscar = findViewById(R.id.buttonBuscar);
         buscar.setOnClickListener(this);
@@ -272,5 +276,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             timePickerDialog.show();
 
         }
+
+        public void notificar (){
+            enviarSms(telefono,mensaje);
+        }
+
+
+
+    public void enviarSms(String telefono, String mensaje){
+        Log.d("SMS", "Llamada al método");
+        try{
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(telefono,null,mensaje,null,null);
+            Toast.makeText(MainActivity.this, "Mensaje enviado", Toast.LENGTH_SHORT).show();
+        } catch (Exception e){
+            Toast.makeText(MainActivity.this, "SMS no enviado, inténtelo de nuevo", Toast.LENGTH_SHORT).show();
+            e.getStackTrace();
+        }
+    }
 
 }
