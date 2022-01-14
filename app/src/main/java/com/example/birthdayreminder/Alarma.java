@@ -25,8 +25,9 @@ public class Alarma extends BroadcastReceiver {
     public int horaAlarma=hoy.get(Calendar.HOUR_OF_DAY);
     public int minutoAlarma=hoy.get(Calendar.MINUTE);
     public int diaDeHoy= hoy.get(Calendar.DAY_OF_MONTH);
-    public int mesActual = hoy.get(Calendar.MONTH);
-
+    public int mesActual = hoy.get(Calendar.MONTH)+1;
+    public String [] datos;
+    String notificacion;
 
     public int getHoraAlarma() {
         return horaAlarma;
@@ -44,11 +45,18 @@ public class Alarma extends BroadcastReceiver {
         this.minutoAlarma = minutoAlarma;
     }
 
+
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d("FERNANDO", "Alarma de cumpleaños disparada correctamente");
-        Log.d("FERNANDO", "LISTADOCOFIGURADO: " + ListadoConfigurado.dia[1]);
-        Log.d("FERNANDO", "Mes " + mesActual);
+        listarGuardados();
+
+
+
+
+        Log.d("FERNANDO", "Mes " +  " Día " + diaDeHoy);
+        Log.d("FERNANDO", "LISTADOCOFIGURADO: "  );
+
 
         if (ListadoConfigurado.dia[1].equals(mesActual) && ListadoConfigurado.dia[2].equals(diaDeHoy)){
                 Log.d("Cumpleaños", "Alarma de cumpleaños disparada correctamente.");
@@ -56,6 +64,32 @@ public class Alarma extends BroadcastReceiver {
             }
 
 
+    }
+
+    public void listarGuardados(){
+        ArrayAdapter<String> adaptador;
+        List<String> lista = new ArrayList<String>();
+        Cursor c=MainActivity.db.rawQuery("SELECT Nombre, FechaNacimiento, Telefono, TipoNotif, Mensaje FROM MisCumples", null);
+
+        if(c.getCount()==0)
+            lista.add("No hay contactos guardados");
+        else{
+            while(c.moveToNext()) {
+                if (c.getString(3).equals("S")) {
+                    notificacion = "SMS";
+                } else {
+                    notificacion = "Notificación";
+                }
+
+
+
+                Log.d("Nombre: ", c.getString(0) + " Cumpleaños: " + c.getString(1)
+                        + " Teléfono: " + c.getString(2) + " Tipo de notificación: " + notificacion
+                        + " Mensaje: " + c.getString(4));
+            }
+        }
+
+        c.close();
     }
 
 
