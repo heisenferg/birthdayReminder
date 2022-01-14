@@ -22,12 +22,12 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 public class Alarma extends BroadcastReceiver {
-    Calendar hoy= Calendar.getInstance();
-    public int horaAlarma=hoy.get(Calendar.HOUR_OF_DAY);
-    public int minutoAlarma=hoy.get(Calendar.MINUTE);
-    public int diaDeHoy= hoy.get(Calendar.DAY_OF_MONTH);
-    public int mesActual = hoy.get(Calendar.MONTH)+1;
-    public String [] datos;
+    Calendar hoy = Calendar.getInstance();
+    public int horaAlarma = hoy.get(Calendar.HOUR_OF_DAY);
+    public int minutoAlarma = hoy.get(Calendar.MINUTE);
+    public int diaDeHoy = hoy.get(Calendar.DAY_OF_MONTH);
+    public int mesActual = hoy.get(Calendar.MONTH) + 1;
+    public String[] datos;
     String notificacion;
 
     public int getHoraAlarma() {
@@ -50,7 +50,14 @@ public class Alarma extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-/*
+        Log.d("PROBANDO", "Funciona sin cerrar");
+        alarma();
+        Log.d("PROBANDO", "Se cierra");
+    }
+
+
+    public void alarma() {
+
         Cursor c = MainActivity.db.rawQuery("SELECT Nombre, FechaNacimiento, Telefono, TipoNotif, Mensaje FROM MisCumples", null);
 
         if (c.getCount() == 0)
@@ -89,11 +96,8 @@ public class Alarma extends BroadcastReceiver {
 
         }
 
-        c.close();*/
-        Log.d("PROBANDO", "Funciona sin cerrar");
+        c.close();
     }
-
-
 
 
 }
