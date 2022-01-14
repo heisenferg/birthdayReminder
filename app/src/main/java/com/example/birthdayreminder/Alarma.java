@@ -104,5 +104,13 @@ public class Alarma extends BroadcastReceiver {
       //  c.close();
     }
 
+    public void enviarNotificacion(){
+
+    }
+
+    public void enviarSms(){
+
+    }
+
 
 }
