@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 
 import androidx.core.content.ContextCompat;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -49,30 +50,12 @@ public class Alarma extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d("FERNANDO", "Alarma de cumpleaños disparada correctamente");
-        listarGuardados();
-
-
-
-
-        Log.d("FERNANDO", "Mes " +  " Día " + diaDeHoy);
-        Log.d("FERNANDO", "LISTADOCOFIGURADO: "  );
-
-
-        if (ListadoConfigurado.dia[1].equals(mesActual) && ListadoConfigurado.dia[2].equals(diaDeHoy)){
-                Log.d("Cumpleaños", "Alarma de cumpleaños disparada correctamente.");
-
-            }
-
-
-    }
-
-    public void listarGuardados(){
-        ArrayAdapter<String> adaptador;
-        List<String> lista = new ArrayList<String>();
         Cursor c=MainActivity.db.rawQuery("SELECT Nombre, FechaNacimiento, Telefono, TipoNotif, Mensaje FROM MisCumples", null);
 
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("ddMM");
+
         if(c.getCount()==0)
-            lista.add("No hay contactos guardados");
+            Log.d("FALLO", "No hay contactos guardados");
         else{
             while(c.moveToNext()) {
                 if (c.getString(3).equals("S")) {
@@ -86,10 +69,43 @@ public class Alarma extends BroadcastReceiver {
                 Log.d("Nombre: ", c.getString(0) + " Cumpleaños: " + c.getString(1)
                         + " Teléfono: " + c.getString(2) + " Tipo de notificación: " + notificacion
                         + " Mensaje: " + c.getString(4));
+
+                String arrayFecha = c.getString(1);
+                datos = arrayFecha.split("-");
+                Log.d("CUMPLEAÑOS: ", "Dia " + Integer.parseInt(datos[2]) + " MesB " + datos[1]);
+
+                // Elimino los ceros de delante para comparar fechas
+                int numDIasincero = Integer.parseInt(datos[1]);
+                Log.d("CUMPLEAÑOS: ", "DiaActual " + diaDeHoy + " MesACtual " + mesActual + " DATOS " + numDIasincero);
+
+
+
+                if (Integer.parseInt(datos[1]) == mesActual && Integer.parseInt(datos[2])==diaDeHoy){
+                    Log.d("Hay cumpleaños hoy", "Alarma de cumpleaños disparada correctamente.");
+
+                }
+
+
             }
         }
 
         c.close();
+
+
+
+
+        Log.d("FERNANDO", "Mes " +  " Día " + diaDeHoy);
+
+
+
+
+
+    }
+
+    public void listarGuardados(){
+        ArrayAdapter<String> adaptador;
+        List<String> lista = new ArrayList<String>();
+
     }
 
 
