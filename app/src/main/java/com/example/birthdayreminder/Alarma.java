@@ -56,6 +56,10 @@ public class Alarma extends BroadcastReceiver {
     }
 
 
+    String arrayFecha;
+    int numDiaSinCero;
+    int numMesSinCero;
+
     public void alarma() {
 
         Cursor c = MainActivity.db.rawQuery("SELECT Nombre, FechaNacimiento, Telefono, TipoNotif, Mensaje FROM MisCumples", null);
@@ -75,20 +79,22 @@ public class Alarma extends BroadcastReceiver {
                         + " Teléfono: " + c.getString(2) + " Tipo de notificación: " + notificacion
                         + " Mensaje: " + c.getString(4));
 
-                String arrayFecha = c.getString(1);
+                arrayFecha = c.getString(1);
                 datos = arrayFecha.split("-");
                 Log.d("CUMPLEAÑOS: ", "Dia " + Integer.parseInt(datos[2]) + " MesB " + datos[1]);
 
                 // Elimino los ceros de delante para comparar fechas
 
-                int numDiaSinCero = Integer.parseInt(datos[2]);
-                int numMesSinCero = Integer.parseInt(datos[1]);
+                 numDiaSinCero = Integer.parseInt(datos[2]);
+                 numMesSinCero = Integer.parseInt(datos[1]);
                 Log.d("CUMPLEAÑOS: ", "DiaActual " + diaDeHoy + " MesACtual " + mesActual + " DATOS dia / mes" + numDiaSinCero + "/" + numMesSinCero);
 
 
                 if (numMesSinCero == mesActual && numDiaSinCero == diaDeHoy) {
                     Log.d("Hay cumpleaños hoy", "Alarma de cumpleaños disparada correctamente. Hace los años " + c.getString(0));
-
+                    break;
+                } else {
+                    break;
                 }
 
 
@@ -96,7 +102,7 @@ public class Alarma extends BroadcastReceiver {
 
         }
 
-        c.close();
+      //  c.close();
     }
 
 
