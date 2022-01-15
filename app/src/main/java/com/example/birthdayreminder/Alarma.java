@@ -60,7 +60,9 @@ public class Alarma extends BroadcastReceiver {
 
         Log.d("PROBANDO", "Funciona sin cerrar");
         alarma();
-        Log.d("PROBANDO", "Se cierra");
+        mainActivity.enviarNotificacion(telefono);
+
+        Log.d("PROBANDO", "Se cierra alarma.");
     }
 
 
@@ -109,7 +111,6 @@ public class Alarma extends BroadcastReceiver {
                         } catch (Exception e){
                             e.printStackTrace();
                         }
-                        //enviarSms(telefono, mensaje);
                     } else {
                         mainActivity.enviarNotificacion(telefono);
                     }
