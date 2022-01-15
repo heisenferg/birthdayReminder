@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public String cumple=null;
     String telefono = "693438334";
     String mensaje = "HOla felicidades";
-Notificar notificado = new Notificar();
 
 
     @Override
@@ -85,7 +84,7 @@ Notificar notificado = new Notificar();
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ListadoConfigurado.class);
                 v.getContext().startActivity(intent);
-                enviarNotificacion();
+                enviarNotificacion(mensaje);
 
             }
         });
@@ -283,11 +282,12 @@ Notificar notificado = new Notificar();
         }
 
 
-    public void enviarNotificacion(){
+    public void enviarNotificacion(String nombrecontacto){
         Log.d("NOTIFICACIÓN", "Comienza");
         crearCanalNotificaciones();
         int id = 1;
-        Intent intent = new Intent(this, MainActivity.class);
+        // Abre el listado de los cumpleaños guardados
+        Intent intent = new Intent(this, ListadoConfigurado.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,0);
         NotificationManager notificationManager = (NotificationManager) getSystemService(this.NOTIFICATION_SERVICE);
@@ -295,7 +295,7 @@ Notificar notificado = new Notificar();
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this,"cumple").
                 setSmallIcon(R.drawable.cumple)
                 .setContentTitle("Cumpleaños: ")
-                .setContentText("Felicita a ")
+                .setContentText("Felicita a " + nombrecontacto)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
