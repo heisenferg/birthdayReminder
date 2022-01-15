@@ -15,6 +15,7 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 import java.time.format.DateTimeFormatter;
@@ -110,7 +111,7 @@ public class Alarma extends BroadcastReceiver {
                         }
                         //enviarSms(telefono, mensaje);
                     } else {
-                        enviarNotificacion();
+                        //enviarNotificacion();
                     }
                     Log.d("FALLANDO", "Entra aquí");
                     break;
@@ -124,9 +125,7 @@ public class Alarma extends BroadcastReceiver {
       //  c.close();
     }
 
-    public void enviarNotificacion(){
-                Log.d("NOTIFICACIÓN", "notificar");
-    }
+
 
     public void enviarSms(String telefono, String mensaje){
         Log.d("SMS", "Llamada al método");

@@ -5,12 +5,16 @@ import static android.widget.Toast.LENGTH_SHORT;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -22,6 +26,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.telephony.SmsManager;
@@ -72,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         solicitarPermisos();
         contactos = findViewById(R.id.etNombres);
-
         Button buscar = findViewById(R.id.buttonBuscar);
         buscar.setOnClickListener(this);
         verContactos = findViewById(R.id.buttonBD);
@@ -81,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ListadoConfigurado.class);
                 v.getContext().startActivity(intent);
+                enviarNotificacion(telefono);
+
             }
         });
 
@@ -278,6 +284,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
+    public void enviarNotificacion(String nombre){
+        Log.d("NOTIFICACIÓN", "Comienza");
+
+        int id = 1;
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "Cumpleaños");
+        builder.setSmallIcon(R.drawable.cumple);
+        builder.setContentTitle("Cumpleaños de " + nombre + "!!");
+        builder.setContentText("Felicita a " + nombre + ", hoy hace los años");
+
+        Log.d("NOTIFICACIÓN", "después de builder");
+
+        /*
+        Intent intent = new Intent(this, MainActivity.class);
+        TaskStackBuilder pila = TaskStackBuilder.create(this);
+        pila.addParentStack(MainActivity.class);
+        PendingIntent resultado = pila.getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(resultado);
+*/
+        NotificationManager notificationManager = (NotificationManager) getSystemService(getApplicationContext().NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel canal = new NotificationChannel("Mi canal", "Título",
+                   NotificationManager.IMPORTANCE_DEFAULT);
+            notificationManager.createNotificationChannel(canal);
+            notificationManager.notify(id,builder.build());
+        }
+        Log.d("NOTIFICACIÓN", "Antes de consturir");
+
+        notificationManager.notify(id,builder.build());
+
+        Log.d("NOTIFICACIÓN", "FIN");
+
+    }
 
 
 
