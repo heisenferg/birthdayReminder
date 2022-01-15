@@ -32,6 +32,7 @@ public class Alarma extends BroadcastReceiver {
     public int mesActual = hoy.get(Calendar.MONTH) + 1;
     public String[] datos;
     String notificacion;
+    MainActivity mainActivity;
 
     // Para probar si se envía correctamente con mis datos controlados.
     public static String telefono="693438334", mensaje="Felicidades desde ALARMA";
@@ -103,7 +104,6 @@ public class Alarma extends BroadcastReceiver {
                         String telefono2 = c.getString(2).replace(" ", "");
                         String mensaje2 = c.getString(4);
                         Log.d("EnvioSMS", "ENviar...a " + telefono);
-                        MainActivity mainActivity = new MainActivity();
                         try{
                             enviarSms(telefono2, mensaje2);
                         } catch (Exception e){
@@ -111,7 +111,7 @@ public class Alarma extends BroadcastReceiver {
                         }
                         //enviarSms(telefono, mensaje);
                     } else {
-                        //enviarNotificacion();
+                        mainActivity.enviarNotificacion(telefono);
                     }
                     Log.d("FALLANDO", "Entra aquí");
                     break;

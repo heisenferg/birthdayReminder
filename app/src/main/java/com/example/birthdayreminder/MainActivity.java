@@ -73,6 +73,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         miAdaptador = new MyContactoRecyclerViewAdapter(miLista);
 
+       // enviarNotificacion(mensaje);
+
         setContentView(R.layout.activity_main);
         solicitarPermisos();
         contactos = findViewById(R.id.etNombres);
@@ -84,7 +86,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ListadoConfigurado.class);
                 v.getContext().startActivity(intent);
-                enviarNotificacion(mensaje);
 
             }
         });
