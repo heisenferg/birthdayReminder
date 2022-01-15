@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public String cumple=null;
     String telefono = "693438334";
     String mensaje = "HOla felicidades";
-
+Notificar notificado = new Notificar();
 
 
     @Override
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ListadoConfigurado.class);
                 v.getContext().startActivity(intent);
-                enviarNotificacion(telefono);
+                enviarNotificacion();
 
             }
         });
@@ -283,40 +283,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
 
-
-    public void enviarNotificacion(String nombre){
+    public void enviarNotificacion(){
         Log.d("NOTIFICACIÓN", "Comienza");
-
+        crearCanalNotificaciones();
         int id = 1;
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "Cumpleaños");
-        builder.setSmallIcon(R.drawable.cumple);
-        builder.setContentTitle("Cumpleaños de " + nombre + "!!");
-        builder.setContentText("Felicita a " + nombre + ", hoy hace los años");
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,0);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(this.NOTIFICATION_SERVICE);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,"cumple").
+                setSmallIcon(R.drawable.cumple)
+                .setContentTitle("Cumpleaños: ")
+                .setContentText("Felicita a ")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
 
         Log.d("NOTIFICACIÓN", "después de builder");
 
-        /*
-        Intent intent = new Intent(this, MainActivity.class);
-        TaskStackBuilder pila = TaskStackBuilder.create(this);
-        pila.addParentStack(MainActivity.class);
-        PendingIntent resultado = pila.getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(resultado);
-*/
-        NotificationManager notificationManager = (NotificationManager) getSystemService(getApplicationContext().NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            NotificationChannel canal = new NotificationChannel("Mi canal", "Título",
-                   NotificationManager.IMPORTANCE_DEFAULT);
-            notificationManager.createNotificationChannel(canal);
-            notificationManager.notify(id,builder.build());
-        }
-        Log.d("NOTIFICACIÓN", "Antes de consturir");
 
-        notificationManager.notify(id,builder.build());
-
-        Log.d("NOTIFICACIÓN", "FIN");
+        notificationManager.notify(id, builder.build());
 
     }
 
+
+    private void crearCanalNotificaciones(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel canal = new NotificationChannel("cumple", "Título",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationChannel canal2 = new NotificationChannel("cumple", "nombre", NotificationManager.IMPORTANCE_DEFAULT);
+            canal.setDescription("Felicitacion cumpleaños");
+            NotificationManager notificationManager = (NotificationManager) getSystemService(getApplicationContext().NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannel(canal2);
+        }
+
+        Log.d("NOTIFICACIÓN", "FIN canal");
+
+    }
 
 
 }
