@@ -31,9 +31,9 @@ public class Alarma extends BroadcastReceiver {
     public int mesActual = hoy.get(Calendar.MONTH) + 1;
     public String[] datos;
     String notificacion;
-    Notificar notificar= new Notificar();
 
-public static String telefono="666666666", mensaje="asdas asdas d";
+    // Para probar si se envía correctamente con mis datos controlados.
+    public static String telefono="693438334", mensaje="Felicidades desde ALARMA";
 
 
     public int getHoraAlarma() {
@@ -52,7 +52,6 @@ public static String telefono="666666666", mensaje="asdas asdas d";
         this.minutoAlarma = minutoAlarma;
     }
 
- MainActivity mainActivity = new MainActivity();
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -100,10 +99,15 @@ public static String telefono="666666666", mensaje="asdas asdas d";
                 if (numMesSinCero == mesActual && numDiaSinCero == diaDeHoy) {
                     Log.d("Hay cumpleaños hoy", "Alarma de cumpleaños disparada correctamente. Hace los años " + c.getString(0));
                     if (c.getString(3).equals("S")){
-                        telefono = c.getString(2).replace(" ", "");
-                        mensaje = c.getString(4);
+                        String telefono2 = c.getString(2).replace(" ", "");
+                        String mensaje2 = c.getString(4);
                         Log.d("EnvioSMS", "ENviar...a " + telefono);
-
+                        MainActivity mainActivity = new MainActivity();
+                        try{
+                            enviarSms(telefono2, mensaje2);
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
                         //enviarSms(telefono, mensaje);
                     } else {
                         enviarNotificacion();
@@ -124,7 +128,15 @@ public static String telefono="666666666", mensaje="asdas asdas d";
                 Log.d("NOTIFICACIÓN", "notificar");
     }
 
-
+    public void enviarSms(String telefono, String mensaje){
+        Log.d("SMS", "Llamada al método");
+        try{
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(telefono,null,mensaje,null,null);
+        } catch (Exception e){
+            e.getStackTrace();
+        }
+    }
 
 
 }
