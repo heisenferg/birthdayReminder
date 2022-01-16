@@ -3,6 +3,8 @@ package com.example.birthdayreminder;
 
 import android.app.AlarmManager;
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -10,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -33,6 +36,9 @@ public class Alarma extends BroadcastReceiver {
     public String[] datos;
     String notificacion;
     MainActivity mainActivity;
+    public static String persona;
+    Notificar notificar = new Notificar();
+    boolean notificacionBarra = false;
 
     // Para probar si se envía correctamente con mis datos controlados.
     public static String telefono="693438334", mensaje="Felicidades desde ALARMA";
@@ -60,9 +66,13 @@ public class Alarma extends BroadcastReceiver {
 
         Log.d("PROBANDO", "Funciona sin cerrar");
         alarma();
-        mainActivity.enviarNotificacion(telefono);
-
         Log.d("PROBANDO", "Se cierra alarma.");
+        if (notificacionBarra=true){
+            Log.d("NOTIFICACIÓN antes de enviar", "Error " + persona);
+            Intent intentone = new Intent(context.getApplicationContext(), MainActivity.class);
+            intentone.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intentone);
+        }
     }
 
 
@@ -102,7 +112,7 @@ public class Alarma extends BroadcastReceiver {
 
                 if (numMesSinCero == mesActual && numDiaSinCero == diaDeHoy) {
                     Log.d("Hay cumpleaños hoy", "Alarma de cumpleaños disparada correctamente. Hace los años " + c.getString(0));
-                    if (c.getString(3).equals("S")){
+                    if (c.getString(3).equals("N")){
                         String telefono2 = c.getString(2).replace(" ", "");
                         String mensaje2 = c.getString(4);
                         Log.d("EnvioSMS", "ENviar...a " + telefono);
@@ -111,8 +121,17 @@ public class Alarma extends BroadcastReceiver {
                         } catch (Exception e){
                             e.printStackTrace();
                         }
-                    } else {
-                        mainActivity.enviarNotificacion(telefono);
+                    }
+                    if (c.getString(3).equals("S")) {
+                        persona = c.getString(0);
+
+                      // try{
+                       notificacionBarra=true;
+                        //mainActivity.enviarNotificacion(persona);
+
+                     /*   }catch (Exception e){
+                            Log.d("NOTIFICACIÓN CATCH", "Error");
+                        }*/
                     }
                     Log.d("FALLANDO", "Entra aquí");
                     break;
@@ -137,6 +156,8 @@ public class Alarma extends BroadcastReceiver {
             e.getStackTrace();
         }
     }
+
+
 
 
 }

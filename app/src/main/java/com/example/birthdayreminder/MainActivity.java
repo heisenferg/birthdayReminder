@@ -72,9 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         miAdaptador = new MyContactoRecyclerViewAdapter(miLista);
-
-       // enviarNotificacion(mensaje);
-
+enviarNotificacion();
         setContentView(R.layout.activity_main);
         solicitarPermisos();
         contactos = findViewById(R.id.etNombres);
@@ -282,21 +280,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
 
+        public static int id;
 
-    public void enviarNotificacion(String nombrecontacto){
+    public void enviarNotificacion(){
         Log.d("NOTIFICACIÓN", "Comienza");
         crearCanalNotificaciones();
-        int id = 1;
+        id = 1;
         // Abre el listado de los cumpleaños guardados
-        Intent intent = new Intent(this, ListadoConfigurado.class);
+        Intent intent = new Intent(MainActivity.this, ListadoConfigurado.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(MainActivity.this,0,intent,0);
         NotificationManager notificationManager = (NotificationManager) getSystemService(this.NOTIFICATION_SERVICE);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,"cumple").
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this,"cumple").
                 setSmallIcon(R.drawable.cumple)
                 .setContentTitle("Cumpleaños: ")
-                .setContentText("Felicita a " + nombrecontacto)
+                .setContentText("Felicita a " + Alarma.persona)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
@@ -311,10 +310,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void crearCanalNotificaciones(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            NotificationChannel canal = new NotificationChannel("cumple", "Título",
-                    NotificationManager.IMPORTANCE_DEFAULT);
             NotificationChannel canal2 = new NotificationChannel("cumple", "nombre", NotificationManager.IMPORTANCE_DEFAULT);
-            canal.setDescription("Felicitacion cumpleaños");
+            canal2.setDescription("Felicitacion cumpleaños");
             NotificationManager notificationManager = (NotificationManager) getSystemService(getApplicationContext().NOTIFICATION_SERVICE);
             notificationManager.createNotificationChannel(canal2);
         }

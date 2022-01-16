@@ -3,6 +3,8 @@ package com.example.birthdayreminder;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -12,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListadoConfigurado extends AppCompatActivity {
+public class ListadoConfigurado extends AppCompatActivity  {
     private static String size="JKJKJJ";
     ListView listaContactos;
 
@@ -22,13 +24,14 @@ public class ListadoConfigurado extends AppCompatActivity {
         setContentView(R.layout.listado_configurado);
         listaContactos = findViewById(R.id.listviewContactos);
         listarGuardados();
+
     }
 
     String notificacion;
+    List<String> lista = new ArrayList<String>();
 
     public void listarGuardados(){
         ArrayAdapter<String> adaptador;
-        List<String> lista = new ArrayList<String>();
         Cursor c=MainActivity.db.rawQuery("SELECT Nombre, FechaNacimiento, Telefono, TipoNotif, Mensaje FROM MisCumples", null);
 
         if(c.getCount()==0)
@@ -71,4 +74,6 @@ public class ListadoConfigurado extends AppCompatActivity {
 
         }
     }
+
+
 }
