@@ -3,10 +3,8 @@ package com.example.birthdayreminder;
 import static android.widget.Toast.LENGTH_LONG;
 import static android.widget.Toast.LENGTH_SHORT;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -14,7 +12,6 @@ import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -29,18 +26,12 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.telephony.SmsManager;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -49,7 +40,6 @@ import com.example.birthdayreminder.placeholder.PlaceholderContent;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public static ArrayList<Contacto> miLista = new ArrayList<Contacto>();
@@ -58,12 +48,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText contactos;
     public String phone = null;
     public static int idContacto;
-    AsyncTasks asyncTasks = new AsyncTasks();
+   // AsyncTasks<S, Number, S1> asyncTasks = new AsyncTasks<S, Number, S1>();
     public static ArrayList telefonos = new ArrayList();
     public static Contacto contacto;
     Button verContactos;
     public String nombrecontacto=null;
-    public String cumple=null;
     String telefono = "693438334";
     String mensaje = "HOla felicidades";
 
@@ -183,14 +172,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         PlaceholderContent.telefono = phone;
 
                         // Async
-                        cumple = asyncTasks.getCumpleaños(idContacto, this);
+                        new async().execute();;
+                      //  cumple = asyncgetCumpleaños(idContacto, this);
 
                         // Guardar contacto.
                         contacto = new Contacto(idContacto, nombrecontacto, phone, cumple);
 
 
                         //abrirFoto(contacto); Async
-                        asyncTasks.abrirFoto(contacto, this);
+                     //   asyncTasks.abrirFoto(contacto, this);
 
                         //   String numeroT = phoneCursor.getString(phone2);
                         //  Log.d("PHONE2: ", numeroT);
@@ -318,6 +308,65 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         Log.d("NOTIFICACIÓN", "FIN canal");
+
+    }
+
+    public static String cumple;
+
+
+    private class async extends AsyncTask<String, Integer, String>{
+
+        @Override
+        protected String doInBackground(String... strings) {
+            abrirFoto(contacto,getApplicationContext());
+            getCumpleaños(id,getApplicationContext());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Toast.makeText(getApplicationContext(), "Terminó de cargar.", LENGTH_SHORT).show();
+        }
+
+        //Para abrir foto
+        public void abrirFoto(Contacto contacto, Context context){
+            Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contacto.id);
+            InputStream inputStream = ContactsContract.Contacts.openContactPhotoInputStream(context.getContentResolver(), contactUri,false);
+            contacto.foto = BitmapFactory.decodeStream(inputStream);
+        }
+
+
+
+        //Fecha de nacimiento
+
+        @SuppressLint("Range")
+        public String getCumpleaños(int identificador, Context context){
+            String fecha=new String();
+            Uri uri = ContactsContract.Data.CONTENT_URI;
+            String[] proyeccion = new String[] {
+                    ContactsContract.Contacts.DISPLAY_NAME,
+                    ContactsContract.CommonDataKinds.Event.CONTACT_ID,
+                    ContactsContract.CommonDataKinds.Event.START_DATE
+            };
+            String filtro =
+                    ContactsContract.Data.MIMETYPE + "= ? AND " +
+                            ContactsContract.CommonDataKinds.Event.TYPE + "=" +
+                            ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY + " AND " +
+                            ContactsContract.CommonDataKinds.Event.CONTACT_ID + " = ? ";
+            String[] argsFiltro = new String[] {
+                    ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE,
+                    String.valueOf(identificador)
+            };
+            Cursor c=context.getContentResolver().query(uri,proyeccion,filtro,argsFiltro,null);
+            while(c.moveToNext())
+                fecha= c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Event.START_DATE));
+            cumple = fecha;
+            //  arrayFecha = fecha.split("-");
+            //   Log.d("DIA:", arrayFecha[2] + " MES: " + arrayFecha[1]);
+            return fecha;
+        }
+
 
     }
 

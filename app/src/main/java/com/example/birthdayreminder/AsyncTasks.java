@@ -20,50 +20,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.InputStream;
 
-public class AsyncTasks extends AsyncTask<Contacto,Void, Integer> {
- public static String cumple;
+public class AsyncTasks<S, I extends Number, S1> extends AsyncTask<String, Void,String> {
 
 
-    //Para abrir foto
-    public void abrirFoto(Contacto contacto, Context context){
-        Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contacto.id);
-        InputStream inputStream = ContactsContract.Contacts.openContactPhotoInputStream(context.getContentResolver(), contactUri,false);
-        contacto.foto = BitmapFactory.decodeStream(inputStream);
-    }
-
-
-
-    //Fecha de nacimiento
-
-    @SuppressLint("Range")
-    public String getCumpleaños(int identificador, Context context){
-        String fecha=new String();
-        Uri uri = ContactsContract.Data.CONTENT_URI;
-        String[] proyeccion = new String[] {
-                ContactsContract.Contacts.DISPLAY_NAME,
-                ContactsContract.CommonDataKinds.Event.CONTACT_ID,
-                ContactsContract.CommonDataKinds.Event.START_DATE
-        };
-        String filtro =
-                ContactsContract.Data.MIMETYPE + "= ? AND " +
-                        ContactsContract.CommonDataKinds.Event.TYPE + "=" +
-                        ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY + " AND " +
-                        ContactsContract.CommonDataKinds.Event.CONTACT_ID + " = ? ";
-        String[] argsFiltro = new String[] {
-                ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE,
-                String.valueOf(identificador)
-        };
-        Cursor c=context.getContentResolver().query(uri,proyeccion,filtro,argsFiltro,null);
-        while(c.moveToNext())
-            fecha= c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Event.START_DATE));
-        cumple = fecha;
-      //  arrayFecha = fecha.split("-");
-     //   Log.d("DIA:", arrayFecha[2] + " MES: " + arrayFecha[1]);
-        return fecha;
-    }
 
     @Override
-    protected Integer doInBackground(Contacto... contactos) {
-        return 0;
+    protected String doInBackground(String... strings) {
+        return null;
     }
 }

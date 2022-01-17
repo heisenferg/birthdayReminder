@@ -99,7 +99,7 @@ public class EditarContacto extends AppCompatActivity implements View.OnClickLis
         nombre.setText(PlaceholderContent.nombre);
         // Fecha de nacimiento
         cumple = findViewById(R.id.edNacimiento);
-        cumple.setText(AsyncTasks.cumple);
+        cumple.setText(MainActivity.cumple);
         //Teléfono
         telefono = findViewById(R.id.spinnerTelefonos);
         telefono.setAdapter(new ArrayAdapter<String>(EditarContacto.this, android.R.layout.simple_spinner_dropdown_item, tel));
