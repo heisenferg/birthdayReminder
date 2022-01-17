@@ -95,6 +95,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ");");
 
 
+        miAdaptador.notifyDataSetChanged();
+
     }
 
     boolean permisos_concedidos=false;
@@ -181,6 +183,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         try {
                             new async().execute();
+
                         } catch (Exception e){
                             Log.d("Contacto: ", "Excepcion");
                         }
@@ -212,7 +215,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         }
-
 
 
     }
