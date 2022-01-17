@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText contactos;
     public String phone = null;
     public static int idContacto;
-   // AsyncTasks<S, Number, S1> asyncTasks = new AsyncTasks<S, Number, S1>();
     public static ArrayList telefonos = new ArrayList();
     public static Contacto contacto;
     Button verContactos;
@@ -181,14 +180,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         PlaceholderContent.telefono = phone;
                         PlaceholderContent.nombre = nombrecontacto;
 
-                        try {
-                            new async().execute();
 
-                        } catch (Exception e){
-                            Log.d("Contacto: ", "Excepcion");
-                        }
+                        new async().execute();
 
-                        //cumple = getCumpleaños(idContacto, this);
+
+
+                        cumple = getCumpleaños(idContacto, this);
 
 
                         // Guardar contacto.
@@ -324,36 +321,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
-    private class async extends AsyncTask<String, Integer, String>{
-        @Override
-        protected String doInBackground(String... strings) {
-            abrirFoto(contacto,getApplicationContext());
-            getCumpleaños(idContacto,getApplicationContext());
-            return cumple;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            Toast.makeText(getApplicationContext(), "Terminó de cargar." + cumple, LENGTH_SHORT).show();
-        }
-
-
-        //Para abrir foto
-        public void abrirFoto(Contacto contacto, Context context){
-            Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contacto.id);
-            InputStream inputStream = ContactsContract.Contacts.openContactPhotoInputStream(context.getContentResolver(), contactUri,false);
-            contacto.foto = BitmapFactory.decodeStream(inputStream);
-        }
-
-
-
-
-
-
-    }
-
     //Fecha de nacimiento
     String fecha=new String();
 
@@ -382,5 +349,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //   Log.d("DIA:", arrayFecha[2] + " MES: " + arrayFecha[1]);
         return fecha;
     }
+
+    private class async extends AsyncTask<String, Void, String>{
+             //Para abrir foto
+        public void abrirFoto(Contacto contacto, Context context){
+            Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contacto.id);
+            InputStream inputStream = ContactsContract.Contacts.openContactPhotoInputStream(context.getContentResolver(), contactUri,false);
+            contacto.foto = BitmapFactory.decodeStream(inputStream);
+        }
+
+
+        @Override
+        protected String doInBackground(String... strings) {
+            getCumpleaños(idContacto,getApplicationContext());
+            abrirFoto(contacto, getApplicationContext());
+            return null;
+        }
+    }
+
+
 
 }
