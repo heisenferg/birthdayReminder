@@ -6,7 +6,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,8 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListadoConfigurado extends AppCompatActivity  {
-    private static String size="JKJKJJ";
     ListView listaContactos;
+    Button borrar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,6 +26,22 @@ public class ListadoConfigurado extends AppCompatActivity  {
         setContentView(R.layout.listado_configurado);
         listaContactos = findViewById(R.id.listviewContactos);
         listarGuardados();
+
+        listaContactos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                //borrarBD(position);
+                return false;
+            }
+        });
+
+        borrar = findViewById(R.id.buttonBorrar);
+        borrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                borrarBD();
+            }
+        });
 
     }
 
@@ -75,5 +93,14 @@ public class ListadoConfigurado extends AppCompatActivity  {
         }
     }
 
+    public void borrarBD (){
+        ArrayAdapter<String> adaptador;
+        MainActivity.db.execSQL("DELETE FROM MisCumples");
+        lista.clear();
+
+        adaptador=new ArrayAdapter<String>
+                (getApplicationContext(),android.R.layout.simple_list_item_1,lista);
+        listaContactos.setAdapter(adaptador);
+    }
 
 }

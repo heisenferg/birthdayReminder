@@ -72,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button buscar = findViewById(R.id.buttonBuscar);
         buscar.setOnClickListener(this);
         verContactos = findViewById(R.id.buttonBD);
+     //   solicitarPermisosSms();
+
         verContactos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,22 +103,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     boolean permisos_concedidos=false;
 
     private void solicitarPermisos(){
+        while (permisos_concedidos==false) {
+            if (checkSelfPermission(Manifest.permission.READ_CONTACTS) !=
+                    PackageManager.PERMISSION_GRANTED)  {
+                requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, 1);
 
-        //   while (permisos_concedidos==false) {
-        if (checkSelfPermission(Manifest.permission.READ_CONTACTS) !=
-                PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, 1);
-            requestPermissions(new String[]{Manifest.permission.SEND_SMS}, 1);
-        } else if (checkSelfPermission(Manifest.permission.READ_CONTACTS) ==
-                PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED){
-            permisos_concedidos=true;
-        }
-        if (checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED){
-            requestPermissions(new String[]{Manifest.permission.SEND_SMS}, 1);
-        } else if (checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
-            permisos_concedidos = true;
+            } else if (checkSelfPermission(Manifest.permission.READ_CONTACTS) ==
+                    PackageManager.PERMISSION_GRANTED) {
+                    permisos_concedidos =true;
+            }
         }
     }
+
+
+
 
 
 
@@ -361,8 +361,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected String doInBackground(String... strings) {
-            getCumpleaños(idContacto,getApplicationContext());
-            abrirFoto(contacto, getApplicationContext());
+            try {
+                getCumpleaños(idContacto, getApplicationContext());
+                abrirFoto(contacto, getApplicationContext());
+            }catch (Exception e){
+                Log.d("Async", "Error");
+            }
             return null;
         }
 

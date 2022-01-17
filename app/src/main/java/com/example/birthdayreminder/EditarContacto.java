@@ -2,9 +2,11 @@ package com.example.birthdayreminder;
 
 import static com.example.birthdayreminder.placeholder.PlaceholderContent.*;
 
+import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -87,9 +89,23 @@ public class EditarContacto extends AppCompatActivity implements View.OnClickLis
         });
         guardar = findViewById(R.id.buttonGuardar);
         guardar.setOnClickListener(this);
+
+
+
     }
 
+    public boolean permisos_concedidosSms=false;
 
+    public void solicitarPermisosSms(){
+        while (permisos_concedidosSms==false) {
+            if (checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED)  {
+                requestPermissions(new String[]{Manifest.permission.SEND_SMS}, 1);
+
+            } else if (checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
+                permisos_concedidosSms =true;
+            }
+        }
+    }
 
     public void cargar(){
         //ID
@@ -109,8 +125,6 @@ public class EditarContacto extends AppCompatActivity implements View.OnClickLis
         mensaje = findViewById(R.id.edMensaje);
 
 
-
-
         Log.d("ERROR ", id + " "+ SMS + " "+ mensaje.getText().toString() + " " + telefono.getSelectedItem().toString() +
                 " " + cumple.getText().toString() + " " + nombre.getText().toString() );
     }
@@ -121,13 +135,12 @@ public class EditarContacto extends AppCompatActivity implements View.OnClickLis
         if (notificacion.isChecked()){
             addToDbSMS(v);
             Toast.makeText(getApplicationContext(), "Se enviará SMS.", Toast.LENGTH_SHORT).show();
-
+            solicitarPermisosSms();
 
         } else if (!notificacion.isChecked()){
             Toast.makeText(getApplicationContext(), "Se notificará en la barra de notificaciones.", Toast.LENGTH_SHORT).show();
             addToDbNotificacion(v);
         }
-
 
 
     }
@@ -146,4 +159,6 @@ public class EditarContacto extends AppCompatActivity implements View.OnClickLis
                 "','" + cumple.getText().toString() + "','" + nombre.getText().toString() + "')");
         Toast.makeText(getApplicationContext(), "Se añadió " + nombre.getText().toString() + " correctamente.", Toast.LENGTH_SHORT).show();
     }
+
+
 }
