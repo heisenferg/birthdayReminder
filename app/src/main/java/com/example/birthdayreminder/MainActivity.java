@@ -32,6 +32,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -40,6 +41,7 @@ import com.example.birthdayreminder.placeholder.PlaceholderContent;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public static ArrayList<Contacto> miLista = new ArrayList<Contacto>();
@@ -55,12 +57,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public String nombrecontacto=null;
     String telefono = "693438334";
     String mensaje = "HOla felicidades";
+    public static String cumple;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         miAdaptador = new MyContactoRecyclerViewAdapter(miLista);
+
 
 
         setContentView(R.layout.activity_main);
@@ -120,6 +124,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         //Borro los teléfonos anteriores guardados en el array
         telefonos.clear();
+        // Async
+
         //Buscamos Contactos
         String proyeccion[]={ContactsContract.Contacts._ID,
                 ContactsContract.Contacts.DISPLAY_NAME,
@@ -163,28 +169,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     PlaceholderContent.idContacto = idContacto;
 
                     do{
+
+
                         nombrecontacto = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Nickname.DISPLAY_NAME));
                         //Lo guardo fuera para pasarlo al otro activity.
-                        PlaceholderContent.nombre = nombrecontacto;
                         phone = phoneCursor.getString(4);
 
 
                         PlaceholderContent.telefono = phone;
+                        PlaceholderContent.nombre = nombrecontacto;
 
-                        // Async
-                        new async().execute();;
-                      //  cumple = asyncgetCumpleaños(idContacto, this);
+                        try {
+                            new async().execute();
+                        } catch (Exception e){
+                            Log.d("Contacto: ", "Excepcion");
+                        }
+
+                        //cumple = getCumpleaños(idContacto, this);
+
 
                         // Guardar contacto.
                         contacto = new Contacto(idContacto, nombrecontacto, phone, cumple);
 
 
                         //abrirFoto(contacto); Async
-                     //   asyncTasks.abrirFoto(contacto, this);
 
-                        //   String numeroT = phoneCursor.getString(phone2);
-                        //  Log.d("PHONE2: ", numeroT);
-                        Log.d("Contacto: ", idContacto + ": " + nombrecontacto + ": " + phone + " " + cumple);
+
+                        Log.d("Contacto: ", idContacto + ": " + nombrecontacto + ": " + phone + " " + getCumpleaños(idContacto,this));
                         telefonos.add(phone);
                         miLista.add(contacto);
 
@@ -311,23 +322,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public static String cumple;
-
 
     private class async extends AsyncTask<String, Integer, String>{
-
         @Override
         protected String doInBackground(String... strings) {
             abrirFoto(contacto,getApplicationContext());
-            getCumpleaños(id,getApplicationContext());
-            return null;
+            getCumpleaños(idContacto,getApplicationContext());
+            return cumple;
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Toast.makeText(getApplicationContext(), "Terminó de cargar.", LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Terminó de cargar." + cumple, LENGTH_SHORT).show();
         }
+
 
         //Para abrir foto
         public void abrirFoto(Contacto contacto, Context context){
@@ -338,37 +347,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-        //Fecha de nacimiento
 
-        @SuppressLint("Range")
-        public String getCumpleaños(int identificador, Context context){
-            String fecha=new String();
-            Uri uri = ContactsContract.Data.CONTENT_URI;
-            String[] proyeccion = new String[] {
-                    ContactsContract.Contacts.DISPLAY_NAME,
-                    ContactsContract.CommonDataKinds.Event.CONTACT_ID,
-                    ContactsContract.CommonDataKinds.Event.START_DATE
-            };
-            String filtro =
-                    ContactsContract.Data.MIMETYPE + "= ? AND " +
-                            ContactsContract.CommonDataKinds.Event.TYPE + "=" +
-                            ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY + " AND " +
-                            ContactsContract.CommonDataKinds.Event.CONTACT_ID + " = ? ";
-            String[] argsFiltro = new String[] {
-                    ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE,
-                    String.valueOf(identificador)
-            };
-            Cursor c=context.getContentResolver().query(uri,proyeccion,filtro,argsFiltro,null);
-            while(c.moveToNext())
-                fecha= c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Event.START_DATE));
-            cumple = fecha;
-            //  arrayFecha = fecha.split("-");
-            //   Log.d("DIA:", arrayFecha[2] + " MES: " + arrayFecha[1]);
-            return fecha;
-        }
 
 
     }
 
+    //Fecha de nacimiento
+    String fecha=new String();
+
+    @SuppressLint("Range")
+    public String getCumpleaños(int identificador, Context context){
+        Uri uri = ContactsContract.Data.CONTENT_URI;
+        String[] proyeccion = new String[] {
+                ContactsContract.Contacts.DISPLAY_NAME,
+                ContactsContract.CommonDataKinds.Event.CONTACT_ID,
+                ContactsContract.CommonDataKinds.Event.START_DATE
+        };
+        String filtro =
+                ContactsContract.Data.MIMETYPE + "= ? AND " +
+                        ContactsContract.CommonDataKinds.Event.TYPE + "=" +
+                        ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY + " AND " +
+                        ContactsContract.CommonDataKinds.Event.CONTACT_ID + " = ? ";
+        String[] argsFiltro = new String[] {
+                ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE,
+                String.valueOf(identificador)
+        };
+        Cursor c=context.getContentResolver().query(uri,proyeccion,filtro,argsFiltro,null);
+        while(c.moveToNext())
+            fecha= c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Event.START_DATE));
+        cumple = fecha;
+        //  arrayFecha = fecha.split("-");
+        //   Log.d("DIA:", arrayFecha[2] + " MES: " + arrayFecha[1]);
+        return fecha;
+    }
 
 }

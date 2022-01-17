@@ -17,4 +17,8 @@ public class Contacto {
         this.telefono = telefono;
         this.cumple = cumple;
     }
+
+    public void setCumple(String cumple) {
+        this.cumple = cumple;
+    }
 }
