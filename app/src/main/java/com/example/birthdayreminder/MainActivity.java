@@ -280,7 +280,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             timePickerDialog.show();
 
         }
-
+/*
         public static int id;
 
     public void enviarNotificacion(){
@@ -319,7 +319,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Log.d("NOTIFICACIÓN", "FIN canal");
 
-    }
+    } */
 
     //Fecha de nacimiento
     String fecha=new String();
@@ -365,6 +365,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             abrirFoto(contacto, getApplicationContext());
             return null;
         }
+
+
     }
 
 

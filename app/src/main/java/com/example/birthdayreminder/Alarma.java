@@ -126,16 +126,12 @@ public class Alarma extends BroadcastReceiver {
                     if (c.getString(3).equals("N")) {
                         persona = c.getString(0);
 
-                      // try{
-                       notificacionBarra=true;
-                        //mainActivity.enviarNotificacion(persona);
 
-                     /*   }catch (Exception e){
-                            Log.d("NOTIFICACIÓN CATCH", "Error");
-                        }*/
+                       notificacionBarra=true;
+
                     }
                     Log.d("FALLANDO", "Entra aquí");
-                   // break;
+
                 }
                 notificacionBarra=false;
 
