@@ -20,13 +20,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.InputStream;
 
-public class AsyncTasks extends AsyncTask {
+public class AsyncTasks extends AsyncTask<Contacto,Void, Integer> {
  public static String cumple;
-// public static String[] arrayFecha;
-    @Override
-    protected Object doInBackground(Object[] objects) {
-        return null;
-    }
+
 
     //Para abrir foto
     public void abrirFoto(Contacto contacto, Context context){
@@ -64,5 +60,10 @@ public class AsyncTasks extends AsyncTask {
       //  arrayFecha = fecha.split("-");
      //   Log.d("DIA:", arrayFecha[2] + " MES: " + arrayFecha[1]);
         return fecha;
+    }
+
+    @Override
+    protected Integer doInBackground(Contacto... contactos) {
+        return 0;
     }
 }

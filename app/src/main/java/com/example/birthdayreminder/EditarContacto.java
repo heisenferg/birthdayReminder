@@ -2,10 +2,14 @@ package com.example.birthdayreminder;
 
 import static com.example.birthdayreminder.placeholder.PlaceholderContent.*;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +45,9 @@ public class EditarContacto extends AppCompatActivity implements View.OnClickLis
     public final char NOTIFICACION='N';
     Button guardar;
     int id;
-    Calendar hoy;
+    Button verContacto;
+    public static final int SELECCIONADO=1;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,8 +55,36 @@ public class EditarContacto extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.editar_contacto);
         cargar();
         notificacion = findViewById(R.id.checkBoxNotificacion);
+        verContacto = findViewById(R.id.ButtonverContacto);
+        verContacto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String proyeccion[]={ContactsContract.Contacts._ID,
+                        ContactsContract.Contacts.DISPLAY_NAME,
+                        ContactsContract.Contacts.LOOKUP_KEY,
+                        ContactsContract.Contacts.HAS_PHONE_NUMBER,
+                        ContactsContract.Contacts.PHOTO_ID};
 
+                String filtro=ContactsContract.Contacts._ID + " like ?";
 
+                String args_filtro[]={"%"+id+"%"};
+
+                ArrayList<String> lista_contactos=new ArrayList<String>();
+                ContentResolver cr = getContentResolver();
+                Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
+                        proyeccion, filtro, args_filtro, null);
+
+                if(cur.getCount()==SELECCIONADO) {
+                    cur.moveToNext();
+
+                    String lookupKey = cur.getString(2);
+
+                    Uri contactUri = ContactsContract.Contacts.getLookupUri(id, lookupKey);
+                    startActivity(new Intent(Intent.ACTION_VIEW, contactUri));
+                }
+            }
+
+        });
         guardar = findViewById(R.id.buttonGuardar);
         guardar.setOnClickListener(this);
     }

@@ -32,7 +32,7 @@ public class ListadoConfigurado extends AppCompatActivity  {
 
     public void listarGuardados(){
         ArrayAdapter<String> adaptador;
-        Cursor c=MainActivity.db.rawQuery("SELECT Nombre, FechaNacimiento, Telefono, TipoNotif, Mensaje FROM MisCumples", null);
+        Cursor c=MainActivity.db.rawQuery("SELECT Nombre, FechaNacimiento, Telefono, TipoNotif, Mensaje, ID FROM MisCumples", null);
 
         if(c.getCount()==0)
             lista.add("No hay contactos guardados");
@@ -46,7 +46,7 @@ public class ListadoConfigurado extends AppCompatActivity  {
 
                 lista.add("Nombre: " + c.getString(0) + " Cumpleaños: " + c.getString(1)
                         + " Teléfono: " + c.getString(2) + " Tipo de notificación: " + notificacion
-                        + " Mensaje: " + c.getString(4));
+                        + " Mensaje: " + c.getString(4) + "ID: " + c.getString(5));
             }
         }
         adaptador=new ArrayAdapter<String>
