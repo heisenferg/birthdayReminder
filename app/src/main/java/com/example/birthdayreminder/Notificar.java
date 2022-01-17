@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,10 +18,13 @@ public class Notificar extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.listado_configurado);
+        setContentView(R.layout.notificado);
+        TextView notificado = findViewById(R.id.textViewCumple);
+        String cumpleañero = Alarma.persona.toString();
+        notificado.setText("Hoy es el cumpleaños de " + cumpleañero);
         enviarNotificacion();
-        ListadoConfigurado listado = new ListadoConfigurado();
-        listado.listarGuardados();
+
+
     }
 
     public static int id;
