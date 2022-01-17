@@ -25,7 +25,6 @@ public class AsyncTasks extends AsyncTask {
 // public static String[] arrayFecha;
     @Override
     protected Object doInBackground(Object[] objects) {
-
         return null;
     }
 

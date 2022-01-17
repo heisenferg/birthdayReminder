@@ -63,16 +63,17 @@ public class Alarma extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
         Log.d("PROBANDO", "Funciona sin cerrar");
         alarma();
         Log.d("PROBANDO", "Se cierra alarma.");
         if (notificacionBarra=true){
-            Log.d("NOTIFICACIÓN antes de enviar", "Error " + persona);
-            Intent intentone = new Intent(context.getApplicationContext(), MainActivity.class);
-            intentone.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intentone);
+            Log.d("NOTIFICACIÓN antes de enviar", "Error " + persona + " Dia hoy" + diaDeHoy);
+            Intent intentNotificacion = new Intent(context.getApplicationContext(), Notificar.class);
+            intentNotificacion.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intentNotificacion);
+            notificacionBarra=false;
         }
+
     }
 
 
@@ -83,7 +84,6 @@ public class Alarma extends BroadcastReceiver {
     public void alarma() {
 
         Cursor c = MainActivity.db.rawQuery("SELECT Nombre, FechaNacimiento, Telefono, TipoNotif, Mensaje FROM MisCumples", null);
-
         if (c.getCount() == 0)
             Log.d("FALLO", "No hay contactos guardados");
         else {
@@ -94,6 +94,7 @@ public class Alarma extends BroadcastReceiver {
                     notificacion = "Notificación";
                 }
 
+                persona = c.getString(0);
 
                 Log.d("Nombre: ", c.getString(0) + " Cumpleaños: " + c.getString(1)
                         + " Teléfono: " + c.getString(2) + " Tipo de notificación: " + notificacion
@@ -107,12 +108,12 @@ public class Alarma extends BroadcastReceiver {
 
                  numDiaSinCero = Integer.parseInt(datos[2]);
                  numMesSinCero = Integer.parseInt(datos[1]);
-                Log.d("CUMPLEAÑOS: ", "DiaActual " + diaDeHoy + " MesACtual " + mesActual + " DATOS dia / mes " + numDiaSinCero + "/" + numMesSinCero);
+                 Log.d("CUMPLEAÑOS: ", "DiaActual " + diaDeHoy + " MesACtual " + mesActual + " DATOS dia / mes " + numDiaSinCero + "/" + numMesSinCero);
 
 
-                if (numMesSinCero == mesActual && numDiaSinCero == diaDeHoy) {
+                if (numDiaSinCero == diaDeHoy && numMesSinCero == mesActual) {
                     Log.d("Hay cumpleaños hoy", "Alarma de cumpleaños disparada correctamente. Hace los años " + c.getString(0));
-                    if (c.getString(3).equals("N")){
+                    if (c.getString(3).equals("S")){
                         String telefono2 = c.getString(2).replace(" ", "");
                         String mensaje2 = c.getString(4);
                         Log.d("EnvioSMS", "ENviar...a " + telefono);
@@ -122,7 +123,7 @@ public class Alarma extends BroadcastReceiver {
                             e.printStackTrace();
                         }
                     }
-                    if (c.getString(3).equals("S")) {
+                    if (c.getString(3).equals("N")) {
                         persona = c.getString(0);
 
                       // try{
@@ -134,8 +135,9 @@ public class Alarma extends BroadcastReceiver {
                         }*/
                     }
                     Log.d("FALLANDO", "Entra aquí");
-                    break;
+                   // break;
                 }
+                notificacionBarra=false;
 
 
             }

@@ -17,7 +17,10 @@ public class Notificar extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.listado_configurado);
         enviarNotificacion();
+        ListadoConfigurado listado = new ListadoConfigurado();
+        listado.listarGuardados();
     }
 
     public static int id;

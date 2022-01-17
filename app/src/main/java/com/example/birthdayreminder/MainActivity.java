@@ -72,7 +72,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         miAdaptador = new MyContactoRecyclerViewAdapter(miLista);
-enviarNotificacion();
+
+
         setContentView(R.layout.activity_main);
         solicitarPermisos();
         contactos = findViewById(R.id.etNombres);
@@ -233,7 +234,7 @@ enviarNotificacion();
         alarmManager = (AlarmManager) getApplicationContext().getSystemService(getApplicationContext().ALARM_SERVICE);
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendario.getTimeInMillis(),
                      AlarmManager.INTERVAL_DAY, alarmIntent);
-        Log.d("ERROR: ¿?", "Lee hasta aquí. Hora " + hora + " minuto: " + minuto);
+        Log.d("ALARMA establecida: ¿?", "Hora " + hora + " minuto: " + minuto);
 
 
     }
@@ -287,7 +288,7 @@ enviarNotificacion();
         crearCanalNotificaciones();
         id = 1;
         // Abre el listado de los cumpleaños guardados
-        Intent intent = new Intent(MainActivity.this, ListadoConfigurado.class);
+        Intent intent = new Intent(this, ListadoConfigurado.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(MainActivity.this,0,intent,0);
         NotificationManager notificationManager = (NotificationManager) getSystemService(this.NOTIFICATION_SERVICE);
@@ -295,7 +296,7 @@ enviarNotificacion();
         NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this,"cumple").
                 setSmallIcon(R.drawable.cumple)
                 .setContentTitle("Cumpleaños: ")
-                .setContentText("Felicita a " + Alarma.persona)
+                .setContentText("Cumpleaños " + Alarma.persona)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);

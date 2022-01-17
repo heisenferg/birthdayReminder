@@ -30,7 +30,7 @@
         </activity>
         <activity android:name=".EditarContacto"/>
         <activity android:name=".ListadoConfigurado"/>
-
+    <activity android:name=".Notificar"/>
         <receiver android:name=".Alarma"
             android:exported="true"
             android:enabled="true">
